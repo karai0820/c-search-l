@@ -50,9 +50,8 @@
                     <a href="{{ url('/') }}">Chemical Activity Search</a>
                 </h1>
                 <ul class="contentlist">
-                    <li><a href="/search">化合物構造検索</a></li>
-                    <li><a href="/create">構造登録</a></li>
-                    <li><a href="/create">活性登録</a></li>
+                    <li><a href="/search">検索</a></li>
+                    <li><a href="/create">登録</a></li>
                 </ul>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>

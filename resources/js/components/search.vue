@@ -38,26 +38,26 @@
     </div>      
   </form>
   
-<form class="searchform" @submit.prevent="" >
+<form class="searchform" @submit.prevent="CSearch" >
     <div lass="form-layout">
       <ul class="form-content">
           <li>
             <label class="col-md-12" for="compound_name">化合物名/L-No.</label>
-        		<input type ='text' class ="form-control" name="compound_name" v-model="compound_name">
+        		<input type ='text' class ="form-control" name="compound_name" v-model="searchData.compound_name">
           </li>
           <li>
         	<label class="col-md-12" for="created_at">登録年月日</label>
-        		<input type ='text' class ="form-control" name="created_at" v-model="date">
+        		<input type ='date' class ="form-control" name="created_at" v-model="searchData.date">
           </li>
           <li>
           <label class="col-md-12" for="author">作成者</label>
-            <input type ='text' class ="form-control" name="author" v-model="author">
+            <input type ='text' class ="form-control" name="author" v-model="searchData.author">
           </li>
     </ul>
    </div>
-   <button type='submit' class="">Search</button>
-
-
+   <div id="hit-num"></div>
+   <div id="search-area"></div>
+   <button type='submit'>Search</button>
   	</form>
 </div>
 </div>
@@ -66,18 +66,12 @@
 </template>
 
 <script>
-
-
-
 export default {
   data() {
     return {
-      structure:'',
-      compound_name:'',
-      date:'',
-      author:'',
-
-     
+    searchData:[
+    {id:'',compound_name:'',structure:'',author:'',date:''}
+    ]
       }
     
   },
@@ -94,21 +88,26 @@ export default {
       alert("Editorに移動します");
       jsmeApplet1.readMolFile(jme);
                 },
-    Search(){
-      axios.get('/api/compounds').then((res)=>{//検索処理を考える
-        if(this.structure == res.data.data.structure){
-          save;
-        }
-        this.compound_name = res.data.data.compound_name;
-        this.date = res.data.data.date;
-        this.author = res.data.data.author;
-      });
-      
-
-    }            
-
-
+    CSearch(){
+      let search = this.searchData;
+      if(search!=''){
+        axios.get('/api/compounds').then((res)=>{
+          let targetText = res.data.data;
+          let targetLists = targetText.filter(function(element){
+            return element.compound_name === search.compound_name || element.author === search.author;
+          });
+          targetLists.forEach(function(targetList){
+          search.push(targetList); 
+        });
+          search.shift();
+          let hitNum ='検索結果:'+this.searchData.length+'件'; 
+          document.getElementById('hit-num').append(hitNum);
+          console.log(this.searchData);
+        });     
+      }
+      console.log(this.searchData);
   }
+}
 }
 
 </script>  
