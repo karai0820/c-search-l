@@ -51240,6 +51240,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -51265,28 +51266,45 @@ __webpack_require__.r(__webpack_exports__);
       alert("Editorに移動します");
       jsmeApplet1.readMolFile(jme);
     },
-    CSearch: function CSearch() {
+    Search: function Search() {
       var _this = this;
 
-      var search = this.searchData;
-
-      if (search != '') {
-        axios.get('/api/compounds').then(function (res) {
-          var targetText = res.data.data;
-          var targetLists = targetText.filter(function (element) {
-            return element.compound_name === search.compound_name || element.author === search.author;
-          });
-          targetLists.forEach(function (targetList) {
-            search.push(targetList);
-          });
-          search.shift();
-          var hitNum = '検索結果:' + _this.searchData.length + '件';
-          document.getElementById('hit-num').append(hitNum);
-          console.log(_this.searchData);
+      axios.get('/api/compounds').then(function (res) {
+        var search = _this.searchData;
+        var targetText = res.data.data;
+        var targetLists = targetText.filter(function (element) {
+          return element.compound_name === search.compound_name || element.author === search.author;
         });
-      }
 
-      console.log(this.searchData);
+        for (var i = 0; i < targetLists.length; i++) {
+          _this.searchData.push(targetLists[i]);
+        }
+
+        console.log(_this.searchData);
+        var hitNum = document.querySelector('#hit-num');
+        hitNum.textContent = '検索結果:' + _this.searchData.length + '件'; //複数回メソッドを走らせると追記されてしまう（要修正）
+      });
+    }
+  },
+  computed: {
+    SearchCount: function SearchCount() {
+      var _this2 = this;
+
+      axios.get('/api/compounds').then(function (res) {
+        var search = _this2.searchData;
+        var targetText = res.data.data;
+        var targetLists = targetText.filter(function (element) {
+          return element.compound_name === search.compound_name || element.author === search.author;
+        });
+
+        for (var i = 0; i < targetLists.length; i++) {
+          _this2.searchData.push(targetLists[i]);
+        }
+
+        console.log(_this2.searchData); //const hitNum = document.querySelector('#hit-num');
+        //hitNum.textContent ='検索結果:'+this.searchData.length+'件';//複数回メソッドを走らせると追記されてしまう（要修正）
+      });
+      return this.searchData.length;
     }
   }
 });
@@ -87690,7 +87708,7 @@ var render = function() {
               on: {
                 submit: function($event) {
                   $event.preventDefault()
-                  return _vm.CSearch($event)
+                  return _vm.Search($event)
                 }
               }
             },
@@ -87803,13 +87821,15 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { attrs: { id: "hit-num" } }),
-              _vm._v(" "),
               _c("div", { attrs: { id: "search-area" } }),
               _vm._v(" "),
               _c("button", { attrs: { type: "submit" } }, [_vm._v("Search")])
             ]
-          )
+          ),
+          _vm._v(" "),
+          _c("div", { attrs: { id: "hit-num" } }, [
+            _vm._v(_vm._s(_vm.SearchCount))
+          ])
         ])
       ])
     ])

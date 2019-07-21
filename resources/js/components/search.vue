@@ -38,7 +38,7 @@
     </div>      
   </form>
   
-<form class="searchform" @submit.prevent="CSearch" >
+<form class="searchform" @submit.prevent="Search" >
     <div lass="form-layout">
       <ul class="form-content">
           <li>
@@ -55,10 +55,11 @@
           </li>
     </ul>
    </div>
-   <div id="hit-num"></div>
+   
    <div id="search-area"></div>
    <button type='submit'>Search</button>
   	</form>
+    <div id="hit-num">{{SearchCount}}</div>
 </div>
 </div>
 </div>
@@ -88,26 +89,44 @@ export default {
       alert("Editorに移動します");
       jsmeApplet1.readMolFile(jme);
                 },
-    CSearch(){
-      let search = this.searchData;
-      if(search!=''){
+    Search(){
+      
         axios.get('/api/compounds').then((res)=>{
-          let targetText = res.data.data;
-          let targetLists = targetText.filter(function(element){
-            return element.compound_name === search.compound_name || element.author === search.author;
-          });
-          targetLists.forEach(function(targetList){
-          search.push(targetList); 
-        });
-          search.shift();
-          let hitNum ='検索結果:'+this.searchData.length+'件'; 
-          document.getElementById('hit-num').append(hitNum);
+          const search = this.searchData
+          const targetText = res.data.data;
+          const targetLists = targetText.filter(function(element){
+                              return element.compound_name === search.compound_name || element.author === search.author;
+                               });
+          for(var i=0;i<targetLists.length;i++){
+            this.searchData.push(targetLists[i]); 
+          }
           console.log(this.searchData);
-        });     
+          const hitNum = document.querySelector('#hit-num');
+          hitNum.textContent ='検索結果:'+this.searchData.length+'件';//複数回メソッドを走らせると追記されてしまう（要修正）
+        });
       }
-      console.log(this.searchData);
-  }
-}
+    },
+    computed:{
+      SearchCount(){
+        axios.get('/api/compounds').then((res)=>{
+          var search = this.searchData;
+          const targetText = res.data.data;
+          const targetLists = targetText.filter(function(element){
+                              return element.compound_name === search.compound_name || element.author === search.author;
+                               });
+          
+           for(var i=0;i<targetLists.length;i++){
+            this.searchData.push(targetLists[i]); 
+          }
+          console.log(this.searchData);
+          
+          //const hitNum = document.querySelector('#hit-num');
+          //hitNum.textContent ='検索結果:'+this.searchData.length+'件';//複数回メソッドを走らせると追記されてしまう（要修正）
+        });
+        return this.searchData.length;
+       
+    }
+    }
 }
 
 </script>  
