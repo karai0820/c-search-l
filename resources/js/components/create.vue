@@ -11,7 +11,6 @@
     
     //構造入力
     <div id="jsme_container1"></div>
-    <input id="jme" type='hidden' v-model="structure" value=""> 
     //パラメータ入力    
     <ul class="form-content">
           <li>
@@ -41,13 +40,14 @@ export default {
         return {
             saved: false,
             compound_name:'',
-            structure:11,
+            structure:'',
             author:'',
             
         }
     },
     methods: {
         create() {
+            this.structure = jsmeApplet1.jmeFile();
             alert(this.structure);
             alert(this.author);
             alert(this.compound_name);
@@ -60,6 +60,7 @@ export default {
             axios.post('/api/compounds',params)
             .then((res) => {
                 this.compound_name = '';
+                this.structure ='';
                 this.author = '';
                 this.saved = true;
                 }) 

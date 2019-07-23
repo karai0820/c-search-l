@@ -1,17 +1,15 @@
 //検索結果一覧表示
  <template>
- <main role="main">
     <div class="container">
-        <h1 class="jumbotron-heading">Structure List</h1>
     <div class="row">
     <div class="col-md-12 mx-auto">
     
-    <router-link v-for="( compound, key, index ) in compounds" :key="key" :to="{name:'detail',params:{id:compounds.id}}" class="list-group-item">
-    {{compound}}
+    <router-link :to="{name:'detail',params:{id:searchData.id}}" class="list-group-item">
+    {{searchData}}
     <div code="JME.class" archive="JME.jar" width=250
                     height=200>
     <param name="options" value="depict">
-    <param name="mol" value="jme"> 
+    <param name="mol" value="jsme"> 
     </div>
 
 
@@ -25,42 +23,30 @@
         <tbody>
             <tr>
             <th>化合物名</th>
-            <td>{{compound.compound_name}}</td>
+            <td>{{searchData.compound_name}}</td>
             </tr> 
             <tr>
             <th>合成者</th>
-            <td>{{compound.author}}</td>
+            <td>{{searchData.author}}</td>
             </tr> 
             <tr>
             <th>登録日</th>
-            <td>{{compound.date}}</td>
+            <td>{{searchData.date}}</td>
             </tr>   
         </tbody>    
         </table>
-
-        </router-link>
+  </router-link>
 
 
   </div>
   </div>
   </div>
-</main>
 </template>
 
 <script>
 export default {
   name: 'List',
-  props:[],
-  data() {
-    return {
-      compounds:[
-      {id:'',compound_name:'',structure:'',author:'',date:''}
-      ]
-    }
-  },
-  mounted(){
-    this.$nextTick(()=>{this.getItem();});
-  },
+  props:["searchData"],
   methods:{
   getItem() {
             axios.get('/api/compounds/')
@@ -70,12 +56,8 @@ export default {
 
         },
   jsme(compound){
-    document.getElementByName('mol').value = this.compound.structure;
-
-    
-
-
-  }     
+    document.getElementByName('mol').value = this.searchData.structure;
+  },
   }
 }
 </script>

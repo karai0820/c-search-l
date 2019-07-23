@@ -50945,13 +50945,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       saved: false,
       compound_name: '',
-      structure: 11,
+      structure: '',
       author: ''
     };
   },
@@ -50959,6 +50958,7 @@ __webpack_require__.r(__webpack_exports__);
     create: function create() {
       var _this = this;
 
+      this.structure = jsmeApplet1.jmeFile();
       alert(this.structure);
       alert(this.author);
       alert(this.compound_name);
@@ -50968,6 +50968,7 @@ __webpack_require__.r(__webpack_exports__);
       params.append('author', this.author);
       axios.post('/api/compounds', params).then(function (res) {
         _this.compound_name = '';
+        _this.structure = '';
         _this.author = '';
         _this.saved = true;
       })["catch"](function (error) {
@@ -51123,41 +51124,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'List',
-  props: [],
-  data: function data() {
-    return {
-      compounds: [{
-        id: '',
-        compound_name: '',
-        structure: '',
-        author: '',
-        date: ''
-      }]
-    };
-  },
-  mounted: function mounted() {
-    var _this = this;
-
-    this.$nextTick(function () {
-      _this.getItem();
-    });
-  },
+  props: ["searchData"],
   methods: {
     getItem: function getItem() {
-      var _this2 = this;
+      var _this = this;
 
       axios.get('/api/compounds/').then(function (res) {
-        _this2.compounds = res.data.data;
+        _this.compounds = res.data.data;
       });
     },
     jsme: function jsme(compound) {
-      document.getElementByName('mol').value = this.compound.structure;
+      document.getElementByName('mol').value = this.searchData.structure;
     }
   }
 });
@@ -51173,6 +51152,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _list_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./list.vue */ "./resources/js/components/list.vue");
 //
 //
 //
@@ -51241,10 +51221,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  name: "search",
+  components: {
+    List: _list_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
-      searchData: [{
+      compounds: [{
         id: '',
         compound_name: '',
         structure: '',
@@ -51270,19 +51259,17 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get('/api/compounds').then(function (res) {
-        var search = _this.searchData;
+        var search = _this.compounds;
         var targetText = res.data.data;
         var targetLists = targetText.filter(function (element) {
           return element.compound_name === search.compound_name || element.author === search.author;
         });
 
         for (var i = 0; i < targetLists.length; i++) {
-          _this.searchData.push(targetLists[i]);
+          _this.compounds.push(targetLists[i]);
         }
 
-        console.log(_this.searchData);
-        var hitNum = document.querySelector('#hit-num');
-        hitNum.textContent = '検索結果:' + _this.searchData.length + '件'; //複数回メソッドを走らせると追記されてしまう（要修正）
+        console.log(_this.compounds);
       });
     }
   },
@@ -51291,20 +51278,27 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       axios.get('/api/compounds').then(function (res) {
-        var search = _this2.searchData;
+        var search = _this2.compounds;
         var targetText = res.data.data;
         var targetLists = targetText.filter(function (element) {
           return element.compound_name === search.compound_name || element.author === search.author;
         });
 
         for (var i = 0; i < targetLists.length; i++) {
-          _this2.searchData.push(targetLists[i]);
+          _this2.compounds.push(targetLists[i]);
         }
 
-        console.log(_this2.searchData); //const hitNum = document.querySelector('#hit-num');
+        console.log(_this2.compounds); //const hitNum = document.querySelector('#hit-num');
         //hitNum.textContent ='検索結果:'+this.searchData.length+'件';//複数回メソッドを走らせると追記されてしまう（要修正）
-      });
-      return this.searchData.length;
+      }); //return this.searchData.length-1;//無限ループ
+
+      /*const list = document.querySelector('#list');
+        const element = document.createElement("List") 
+        element.setAttribute('v-for','searchdata as this.searchData');
+        element.setAttribute('v-bind:searchData','searchdata');
+        list.appendChild(element);*/
+      //const hitNum = document.querySelector('#hit-num');
+      //hitNum.textContent ='検索結果:'+this.searchData.length+'件';//複数回メソッドを走らせると追記されてしまう（要修正）
     }
   }
 });
@@ -87374,28 +87368,7 @@ var render = function() {
             [
               _vm._v("\n    \n    //構造入力\n    "),
               _c("div", { attrs: { id: "jsme_container1" } }),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.structure,
-                    expression: "structure"
-                  }
-                ],
-                attrs: { id: "jme", type: "hidden", value: "" },
-                domProps: { value: _vm.structure },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.structure = $event.target.value
-                  }
-                }
-              }),
-              _vm._v(" \n    //パラメータ入力    \n    "),
+              _vm._v("\n    //パラメータ入力    \n    "),
               _c("ul", { staticClass: "form-content" }, [
                 _c("li", [
                   _c(
@@ -87576,78 +87549,69 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("main", { attrs: { role: "main" } }, [
-    _c("div", { staticClass: "container" }, [
-      _c("h1", { staticClass: "jumbotron-heading" }, [
-        _vm._v("Structure List")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12 mx-auto" },
-          _vm._l(_vm.compounds, function(compound, key, index) {
-            return _c(
-              "router-link",
-              {
-                key: key,
-                staticClass: "list-group-item",
-                attrs: {
-                  to: { name: "detail", params: { id: _vm.compounds.id } }
-                }
-              },
-              [
-                _vm._v("\n    " + _vm._s(compound) + "\n    "),
-                _c(
-                  "div",
-                  {
-                    attrs: {
-                      code: "JME.class",
-                      archive: "JME.jar",
-                      width: "250",
-                      height: "200"
-                    }
-                  },
-                  [
-                    _c("param", {
-                      attrs: { name: "options", value: "depict" }
-                    }),
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c(
+        "div",
+        { staticClass: "col-md-12 mx-auto" },
+        [
+          _c(
+            "router-link",
+            {
+              staticClass: "list-group-item",
+              attrs: {
+                to: { name: "detail", params: { id: _vm.searchData.id } }
+              }
+            },
+            [
+              _vm._v("\n  " + _vm._s(_vm.searchData) + "\n  "),
+              _c(
+                "div",
+                {
+                  attrs: {
+                    code: "JME.class",
+                    archive: "JME.jar",
+                    width: "250",
+                    height: "200"
+                  }
+                },
+                [
+                  _c("param", { attrs: { name: "options", value: "depict" } }),
+                  _vm._v(" "),
+                  _c("param", { attrs: { name: "mol", value: "jsme" } })
+                ]
+              ),
+              _vm._v("\n\n\n //パラメータ \n      "),
+              _c("table", { staticClass: "table" }, [
+                _c("thead", [
+                  _c("tr", [_c("th", { attrs: { width: "30%" } })])
+                ]),
+                _vm._v(" "),
+                _c("tbody", [
+                  _c("tr", [
+                    _c("th", [_vm._v("化合物名")]),
                     _vm._v(" "),
-                    _c("param", { attrs: { name: "mol", value: "jme" } })
-                  ]
-                ),
-                _vm._v("\n\n\n   //パラメータ \n        "),
-                _c("table", { staticClass: "table" }, [
-                  _c("thead", [
-                    _c("tr", [_c("th", { attrs: { width: "30%" } })])
+                    _c("td", [_vm._v(_vm._s(_vm.searchData.compound_name))])
                   ]),
                   _vm._v(" "),
-                  _c("tbody", [
-                    _c("tr", [
-                      _c("th", [_vm._v("化合物名")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(compound.compound_name))])
-                    ]),
+                  _c("tr", [
+                    _c("th", [_vm._v("合成者")]),
                     _vm._v(" "),
-                    _c("tr", [
-                      _c("th", [_vm._v("合成者")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(compound.author))])
-                    ]),
+                    _c("td", [_vm._v(_vm._s(_vm.searchData.author))])
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c("th", [_vm._v("登録日")]),
                     _vm._v(" "),
-                    _c("tr", [
-                      _c("th", [_vm._v("登録日")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(compound.date))])
-                    ])
+                    _c("td", [_vm._v(_vm._s(_vm.searchData.date))])
                   ])
                 ])
-              ]
-            )
-          }),
-          1
-        )
-      ])
+              ])
+            ]
+          )
+        ],
+        1
+      )
     ])
   ])
 }
@@ -87680,157 +87644,166 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-12 mx-auto" }, [
-          _c("div", { attrs: { id: "jsme_container1" } }),
-          _vm._v(" "),
-          _c("form", { attrs: { name: "select" } }, [
-            _vm._m(0),
+        _c(
+          "div",
+          { staticClass: "col-md-12 mx-auto" },
+          [
+            _c("div", { attrs: { id: "jsme_container1" } }),
             _vm._v(" "),
-            _c("input", {
-              staticClass: "btn btn-primary ",
-              attrs: { type: "button", value: "Editor→Stock" },
-              on: { click: _vm.Stock }
-            }),
+            _c("form", { attrs: { name: "select" } }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("input", {
+                staticClass: "btn btn-primary ",
+                attrs: { type: "button", value: "Editor→Stock" },
+                on: { click: _vm.Stock }
+              }),
+              _vm._v(" "),
+              _c("input", {
+                staticClass: "btn btn-primary ",
+                attrs: { type: "button", value: "Stock→Editor" },
+                on: { click: _vm.BackEditor }
+              }),
+              _vm._v(" "),
+              _vm._m(1)
+            ]),
             _vm._v(" "),
-            _c("input", {
-              staticClass: "btn btn-primary ",
-              attrs: { type: "button", value: "Stock→Editor" },
-              on: { click: _vm.BackEditor }
-            }),
-            _vm._v(" "),
-            _vm._m(1)
-          ]),
-          _vm._v(" "),
-          _c(
-            "form",
-            {
-              staticClass: "searchform",
-              on: {
-                submit: function($event) {
-                  $event.preventDefault()
-                  return _vm.Search($event)
+            _c(
+              "form",
+              {
+                staticClass: "searchform",
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.Search($event)
+                  }
                 }
-              }
-            },
-            [
-              _c("div", { attrs: { lass: "form-layout" } }, [
-                _c("ul", { staticClass: "form-content" }, [
-                  _c("li", [
-                    _c(
-                      "label",
-                      {
-                        staticClass: "col-md-12",
-                        attrs: { for: "compound_name" }
-                      },
-                      [_vm._v("化合物名/L-No.")]
-                    ),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
+              },
+              [
+                _c("div", { attrs: { lass: "form-layout" } }, [
+                  _c("ul", { staticClass: "form-content" }, [
+                    _c("li", [
+                      _c(
+                        "label",
                         {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.searchData.compound_name,
-                          expression: "searchData.compound_name"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "text", name: "compound_name" },
-                      domProps: { value: _vm.searchData.compound_name },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                          staticClass: "col-md-12",
+                          attrs: { for: "compound_name" }
+                        },
+                        [_vm._v("化合物名/L-No.")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.compounds.compound_name,
+                            expression: "compounds.compound_name"
                           }
-                          _vm.$set(
-                            _vm.searchData,
-                            "compound_name",
-                            $event.target.value
-                          )
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", name: "compound_name" },
+                        domProps: { value: _vm.compounds.compound_name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.compounds,
+                              "compound_name",
+                              $event.target.value
+                            )
+                          }
                         }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("li", [
-                    _c(
-                      "label",
-                      {
-                        staticClass: "col-md-12",
-                        attrs: { for: "created_at" }
-                      },
-                      [_vm._v("登録年月日")]
-                    ),
+                      })
+                    ]),
                     _vm._v(" "),
-                    _c("input", {
-                      directives: [
+                    _c("li", [
+                      _c(
+                        "label",
                         {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.searchData.date,
-                          expression: "searchData.date"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "date", name: "created_at" },
-                      domProps: { value: _vm.searchData.date },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                          staticClass: "col-md-12",
+                          attrs: { for: "created_at" }
+                        },
+                        [_vm._v("登録年月日")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.compounds.date,
+                            expression: "compounds.date"
                           }
-                          _vm.$set(_vm.searchData, "date", $event.target.value)
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "date", name: "created_at" },
+                        domProps: { value: _vm.compounds.date },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.compounds, "date", $event.target.value)
+                          }
                         }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("li", [
-                    _c(
-                      "label",
-                      { staticClass: "col-md-12", attrs: { for: "author" } },
-                      [_vm._v("作成者")]
-                    ),
+                      })
+                    ]),
                     _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.searchData.author,
-                          expression: "searchData.author"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "text", name: "author" },
-                      domProps: { value: _vm.searchData.author },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                    _c("li", [
+                      _c(
+                        "label",
+                        { staticClass: "col-md-12", attrs: { for: "author" } },
+                        [_vm._v("作成者")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.compounds.author,
+                            expression: "compounds.author"
                           }
-                          _vm.$set(
-                            _vm.searchData,
-                            "author",
-                            $event.target.value
-                          )
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", name: "author" },
+                        domProps: { value: _vm.compounds.author },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.compounds,
+                              "author",
+                              $event.target.value
+                            )
+                          }
                         }
-                      }
-                    })
+                      })
+                    ])
                   ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { attrs: { id: "search-area" } }),
-              _vm._v(" "),
-              _c("button", { attrs: { type: "submit" } }, [_vm._v("Search")])
-            ]
-          ),
-          _vm._v(" "),
-          _c("div", { attrs: { id: "hit-num" } }, [
-            _vm._v(_vm._s(_vm.SearchCount))
-          ])
-        ])
+                ]),
+                _vm._v(" "),
+                _c("div", { attrs: { id: "search-area" } }),
+                _vm._v(" "),
+                _c("button", { attrs: { type: "submit" } }, [_vm._v("Search")])
+              ]
+            ),
+            _vm._v(" "),
+            _c("div", { attrs: { id: "hit-num" } }, [
+              _vm._v(_vm._s(_vm.SearchCount))
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.compounds, function(compound, key) {
+              return _c("List", { key: key, attrs: { searchData: compound } })
+            })
+          ],
+          2
+        )
       ])
     ])
   ])
@@ -103260,8 +103233,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var _components_top_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/top.vue */ "./resources/js/components/top.vue");
-/* harmony import */ var _components_list_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/list.vue */ "./resources/js/components/list.vue");
-/* harmony import */ var _components_search_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/search.vue */ "./resources/js/components/search.vue");
+/* harmony import */ var _components_search_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/search.vue */ "./resources/js/components/search.vue");
+/* harmony import */ var _components_list_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/list.vue */ "./resources/js/components/list.vue");
 /* harmony import */ var _components_detail_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/detail.vue */ "./resources/js/components/detail.vue");
 /* harmony import */ var _components_create_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/create.vue */ "./resources/js/components/create.vue");
 
@@ -103278,11 +103251,11 @@ var routes = [{
   name: 'top'
 }, {
   path: '/search',
-  component: _components_search_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+  component: _components_search_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
   name: 'search'
 }, {
   path: '/list',
-  component: _components_list_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+  component: _components_list_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
   name: 'list'
 }, {
   path: '/list/:id',
