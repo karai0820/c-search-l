@@ -4,16 +4,13 @@
     <div class="row">
     <div class="col-md-12 mx-auto">
     
-    <router-link :to="{name:'detail',params:{id:searchData.id}}" class="list-group-item">
+    <router-link :to="{name:'detail',params:{name:searchData}}" class="list-group-item">
     {{searchData}}
-    <div code="JME.class" archive="JME.jar" width=250
-                    height=200>
+    <div code="JME.class" archive="JME.jar" width=250 height=200>
     <param name="options" value="depict">
-    <param name="mol" value="jsme"> 
+    <param name="mol" value=""> 
     </div>
 
-
-   //パラメータ 
         <table class="table">
         <thead>
             <tr>
@@ -47,17 +44,6 @@
 export default {
   name: 'List',
   props:["searchData"],
-  methods:{
-  getItem() {
-            axios.get('/api/compounds/')
-            .then( ( res ) => {
-                this.compounds = res.data.data;
-            });
 
-        },
-  jsme(compound){
-    document.getElementByName('mol').value = this.searchData.structure;
-  },
   }
-}
 </script>

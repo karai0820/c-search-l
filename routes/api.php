@@ -18,3 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::resource('compounds','CompoundsController');
+Route::resource('likes','LikeController');
+Route::resource('methods','MethodController');
+Route::resource('paddies','PaddyController');
+Route::resource('uplands','UplandController');

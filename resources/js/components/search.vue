@@ -22,7 +22,7 @@
     <input type="button" class="btn btn-primary " @click="BackEditor"  value="Stock→Editor">
 
     <!--構造ストックボックス-->
-   <div class="stockbox">
+   <div id="stockbox" class="col-md-3" >
         <div class="col-md-3" >
           <div id="jsme_container2">Stockbox No.1</div>
         </div>
@@ -30,7 +30,7 @@
          <div id="jsme_container3">Stockbox No.2</div>
         </div>
         <div class="col-md-3">
-          <div id="jsme_container4">Stockbox No.3</div>
+          <div id="C">Stockbox No.3</div>
         </div>
         <div class="col-md-3">
          <div id="jsme_container5">Stockbox No.4</div>
@@ -60,7 +60,7 @@
    <button type='submit'>Search</button>
 
   	</form>
-    <div id="hit-num">{{SearchCount}}</div>
+    <div id="hit-num">{{}}</div>
     <List v-for="(compound,key) in compounds" :key="key" :searchData="compound"></List>
     
     
@@ -85,6 +85,7 @@ components:{
       }
     
   },
+  
   methods: {
     Stock(){
       const optionNum = document.select.selectbox.selectedIndex;
@@ -101,21 +102,33 @@ components:{
     Search(){
         axios.get('/api/compounds').then((res)=>{
           const search = this.compounds
+          /*for(var i=1;i<6;i++){
+          let jsme =eval("const jme"+i+"="+"jsmeApplet"+i);
+          jsme.molFile();
+        }*/
+          
           const targetText = res.data.data;
           const targetLists = targetText.filter(function(element){
-                              return element.compound_name === search.compound_name || element.author === search.author;
+                              return element.compound_name === search.compound_name || element.author === search.author 
                                });
           for(var i=0;i<targetLists.length;i++){
             this.compounds.push(targetLists[i]); 
           }
+          return this.compounds.shift();
           console.log(this.compounds);
-
-         
         });
+      },
+      Jsme(){
+        for(var i=1;i<6;i++){
+          let jsme = document.createElement('div');
+          jsme.setAttribute('id','eval("jsme_container"+[i+1])');
+          jsme.innerHTML = eval("Stockbox No."+i);
+          document.getElementById('stockbox').appendChild(jsme);
 
       }
     },
-    computed:{
+  },
+    /*computed:{
       SearchCount(){
         axios.get('/api/compounds').then((res)=>{
           var search = this.compounds;
@@ -141,8 +154,8 @@ components:{
 
           //const hitNum = document.querySelector('#hit-num');
           //hitNum.textContent ='検索結果:'+this.searchData.length+'件';//複数回メソッドを走らせると追記されてしまう（要修正）
-    }
-    }
+    //}
+    //}
 }
 
 </script>  

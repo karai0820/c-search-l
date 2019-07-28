@@ -51030,35 +51030,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['compound.id'],
-  data: function data() {
-    return {
-      compoundDetail: [{
-        compound_name: '',
-        author: ''
-      }]
-    };
-  },
-  mounted: function mounted() {
+  mounted: function mounted() {},
+  updated: function updated() {
     var _this = this;
 
     this.$nextTick(function () {
-      _this.getItem();
-    });
-  },
-  updated: function updated() {
-    var _this2 = this;
-
-    this.$nextTick(function () {
-      _this2.jsme();
+      _this.jsme();
     });
   },
   methods: {
     getItem: function getItem() {
-      var _this3 = this;
+      var _this2 = this;
 
-      axios.get('/api/compounds/' + this.compound.id).then(function (res) {
-        _this3.compoundDetail = res.data.data;
+      axios.get('/api/compounds/').then(function (res) {
+        _this2.compoundDetail = res.data.data;
       });
     },
     jsme: function jsme() {
@@ -51121,24 +51106,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'List',
-  props: ["searchData"],
-  methods: {
-    getItem: function getItem() {
-      var _this = this;
-
-      axios.get('/api/compounds/').then(function (res) {
-        _this.compounds = res.data.data;
-      });
-    },
-    jsme: function jsme(compound) {
-      document.getElementByName('mol').value = this.searchData.structure;
-    }
-  }
+  props: ["searchData"]
 });
 
 /***/ }),
@@ -51260,6 +51230,11 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/api/compounds').then(function (res) {
         var search = _this.compounds;
+        /*for(var i=1;i<6;i++){
+        let jsme =eval("const jme"+i+"="+"jsmeApplet"+i);
+        jsme.molFile();
+        }*/
+
         var targetText = res.data.data;
         var targetLists = targetText.filter(function (element) {
           return element.compound_name === search.compound_name || element.author === search.author;
@@ -51269,38 +51244,47 @@ __webpack_require__.r(__webpack_exports__);
           _this.compounds.push(targetLists[i]);
         }
 
+        return _this.compounds.shift();
         console.log(_this.compounds);
       });
+    },
+    Jsme: function Jsme() {
+      for (var i = 1; i < 6; i++) {
+        var jsme = document.createElement('div');
+        jsme.setAttribute('id', 'eval("jsme_container"+[i+1])');
+        jsme.innerHTML = eval("Stockbox No." + i);
+        document.getElementById('stockbox').appendChild(jsme);
+      }
     }
-  },
-  computed: {
-    SearchCount: function SearchCount() {
-      var _this2 = this;
-
-      axios.get('/api/compounds').then(function (res) {
-        var search = _this2.compounds;
-        var targetText = res.data.data;
-        var targetLists = targetText.filter(function (element) {
-          return element.compound_name === search.compound_name || element.author === search.author;
-        });
-
-        for (var i = 0; i < targetLists.length; i++) {
-          _this2.compounds.push(targetLists[i]);
+  }
+  /*computed:{
+    SearchCount(){
+      axios.get('/api/compounds').then((res)=>{
+        var search = this.compounds;
+        const targetText = res.data.data;
+        const targetLists = targetText.filter(function(element){
+                            return element.compound_name === search.compound_name || element.author === search.author;
+                             });
+        
+         for(var i=0;i<targetLists.length;i++){
+          this.compounds.push(targetLists[i]); 
         }
-
-        console.log(_this2.compounds); //const hitNum = document.querySelector('#hit-num');
+        console.log(this.compounds);
+        
+        //const hitNum = document.querySelector('#hit-num');
         //hitNum.textContent ='検索結果:'+this.searchData.length+'件';//複数回メソッドを走らせると追記されてしまう（要修正）
-      }); //return this.searchData.length-1;//無限ループ
-
+      });
+      //return this.searchData.length-1;//無限ループ
       /*const list = document.querySelector('#list');
         const element = document.createElement("List") 
         element.setAttribute('v-for','searchdata as this.searchData');
         element.setAttribute('v-bind:searchData','searchdata');
         list.appendChild(element);*/
-      //const hitNum = document.querySelector('#hit-num');
-      //hitNum.textContent ='検索結果:'+this.searchData.length+'件';//複数回メソッドを走らせると追記されてしまう（要修正）
-    }
-  }
+  //const hitNum = document.querySelector('#hit-num');
+  //hitNum.textContent ='検索結果:'+this.searchData.length+'件';//複数回メソッドを走らせると追記されてしまう（要修正）
+  //}
+  //}
+
 });
 
 /***/ }),
@@ -87481,7 +87465,7 @@ var render = function() {
             _vm._v("\n        //化合物名\n        "),
             _c("h2", { staticClass: "col-md-12" }, [
               _vm._v(
-                "化合物名/L-No.:" + _vm._s(_vm.compoundDetail.compound_name)
+                "化合物名/L-No.:" + _vm._s(_vm.$route.params.name.compound_name)
               )
             ]),
             _vm._v("\n        //構造結果\n        "),
@@ -87498,10 +87482,14 @@ var render = function() {
                 _c("tr", [
                   _c("th", [_vm._v("合成者")]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(_vm.compoundDetail.author))])
+                  _c("td", [_vm._v(_vm._s(_vm.$route.params.name.author))])
                 ]),
                 _vm._v(" "),
-                _vm._m(1)
+                _c("tr", [
+                  _c("th", [_vm._v("登録日")]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(_vm.$route.params.name.date))])
+                ])
               ])
             ])
           ])
@@ -87516,16 +87504,6 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("thead", [_c("tr", [_c("th", { attrs: { width: "30%" } })])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("th", [_vm._v("登録日")]),
-      _vm._v(" "),
-      _c("td", [_vm._v("{{}}")])
-    ])
   }
 ]
 render._withStripped = true
@@ -87560,7 +87538,7 @@ var render = function() {
             {
               staticClass: "list-group-item",
               attrs: {
-                to: { name: "detail", params: { id: _vm.searchData.id } }
+                to: { name: "detail", params: { name: _vm.searchData } }
               }
             },
             [
@@ -87578,10 +87556,10 @@ var render = function() {
                 [
                   _c("param", { attrs: { name: "options", value: "depict" } }),
                   _vm._v(" "),
-                  _c("param", { attrs: { name: "mol", value: "jsme" } })
+                  _c("param", { attrs: { name: "mol", value: "" } })
                 ]
               ),
-              _vm._v("\n\n\n //パラメータ \n      "),
+              _vm._v(" "),
               _c("table", { staticClass: "table" }, [
                 _c("thead", [
                   _c("tr", [_c("th", { attrs: { width: "30%" } })])
@@ -87794,9 +87772,7 @@ var render = function() {
               ]
             ),
             _vm._v(" "),
-            _c("div", { attrs: { id: "hit-num" } }, [
-              _vm._v(_vm._s(_vm.SearchCount))
-            ]),
+            _c("div", { attrs: { id: "hit-num" } }, [_vm._v("{{}}")]),
             _vm._v(" "),
             _vm._l(_vm.compounds, function(compound, key) {
               return _c("List", { key: key, attrs: { searchData: compound } })
@@ -87827,7 +87803,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "stockbox" }, [
+    return _c("div", { staticClass: "col-md-3", attrs: { id: "stockbox" } }, [
       _c("div", { staticClass: "col-md-3" }, [
         _c("div", { attrs: { id: "jsme_container2" } }, [
           _vm._v("Stockbox No.1")
@@ -87841,9 +87817,7 @@ var staticRenderFns = [
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-md-3" }, [
-        _c("div", { attrs: { id: "jsme_container4" } }, [
-          _vm._v("Stockbox No.3")
-        ])
+        _c("div", { attrs: { id: "C" } }, [_vm._v("Stockbox No.3")])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-md-3" }, [
@@ -103244,6 +103218,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var routes = [{
   path: '/',
@@ -103258,13 +103233,17 @@ var routes = [{
   component: _components_list_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
   name: 'list'
 }, {
-  path: '/list/:id',
+  path: '/list/:name',
   component: _components_detail_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
   name: 'detail'
 }, {
   path: '/create',
   component: _components_create_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
   name: 'create'
+}, {
+  path: '/edit',
+  component: _components_create_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
+  name: 'edit'
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',

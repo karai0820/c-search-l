@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCompoundsTable extends Migration
+class CreateLikesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateCompoundsTable extends Migration
      */
     public function up()
     {
-        Schema::create('compounds', function (Blueprint $table) {
+        Schema::create('likes', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('compound_name');
-            $table->string('structure');
-            $table->string('author');
+            $table->integer('user_id')->refarences('id')->on('users');
+            $table->integer('compound_id')->references('id')->on('compounds');
             $table->timestamps();
         });
-        DB::statement('ALTER TABLE compounds ADD FULLTEXT index content (`structure`) with parser ngram');
     }
 
     /**
@@ -30,6 +28,6 @@ class CreateCompoundsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('compounds');
+        Schema::dropIfExists('likes');
     }
 }

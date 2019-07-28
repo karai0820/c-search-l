@@ -5,6 +5,8 @@ import Search from './components/search.vue';
 import List from './components/list.vue';
 import Detail from './components/detail.vue';
 import Create from './components/create.vue';
+import Edit from './components/create.vue';
+
 
 Vue.use(VueRouter);
 
@@ -12,8 +14,9 @@ const routes=[
 	{ path: '/', component:Top, name: 'top' }, 
     { path: '/search', component:Search , name: 'search' }, 
     { path: '/list', component:List , name: 'list' }, 
-    { path: '/list/:id', component:Detail, name: 'detail' }, 
+    { path: '/list/:name', component:Detail, name: 'detail' }, 
     { path: '/create', component:Create, name: 'create' },
+    { path: '/edit', component:Edit, name: 'edit' },
 ];
 
 const router = new VueRouter({

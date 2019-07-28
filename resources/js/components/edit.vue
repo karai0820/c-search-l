@@ -1,4 +1,4 @@
-//詳細ページ
+//編集ページ
 <template>
     <main role="main">
     <div class="container">
@@ -8,7 +8,7 @@
     
     <div class="searchDetail">
         //化合物名
-        <h2 class="col-md-12">化合物名/L-No.:{{$route.params.name.compound_name}}</h2>
+        <h2 class="col-md-12">化合物名/L-No.:{{compoundDetail.compound_name}}</h2>
         //構造結果
         <div id="jsme_container2"></div>
         <param name="mol" value="">//jsmeへの値の入れ方を考える。
@@ -23,15 +23,37 @@
         <tbody>
             <tr>
             <th>合成者</th>
-            <td>{{$route.params.name.author}}</td>
+            <td>{{compoundDetail.author}}</td>
             </tr> 
             <tr>
             <th>登録日</th>
-            <td>{{$route.params.name.date}}</td>
+            <td>{{}}</td>
             </tr>   
         </tbody>    
         </table>
 　　</div>
+<form class="searchform" @submit.prevent="Search">
+    <div lass="form-layout">
+      <ul class="form-content">
+          <li>
+            <label class="col-md-12" for="compound_name">化合物名/L-No.</label>
+                <input type ='text' class ="form-control" name="compound_name" v-model="compounds.compound_name">
+          </li>
+          <li>
+            <label class="col-md-12" for="created_at">登録年月日</label>
+                <input type ='date' class ="form-control" name="created_at" v-model="compounds.date">
+          </li>
+          <li>
+          <label class="col-md-12" for="author">作成者</label>
+            <input type ='text' class ="form-control" name="author" v-model="compounds.author">
+          </li>
+    </ul>
+   </div>
+   
+   <div id="search-area"></div>
+   <button type='submit'>Search</button>
+
+    </form>
   
   </div>
   </div>
@@ -40,16 +62,23 @@
 </template>
 <script>
 export default {
-   
+    props:['compound.id'],
+    data: function( ) {
+        return {
+            compoundDetail:[
+            {compound_name:'',author:''}
+            ]
+        }
+    },
     mounted(){
-
+    this.$nextTick(()=>{this.getItem();});
     },
   updated(){
     this.$nextTick(()=>{this.jsme();});
     },
     methods:{
         getItem() {
-            axios.get('/api/compounds/')
+            axios.get('/api/compounds/'+this.compound.id)
             .then( ( res ) => {
                 this.compoundDetail = res.data.data;
             });

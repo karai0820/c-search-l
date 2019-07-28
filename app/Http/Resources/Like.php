@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Compounds extends JsonResource
+class Like extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,11 +16,11 @@ class Compounds extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'compound_name'=>$this->compound_name,
-            'structure'=>$this->structure,
-            'author'=>$this->author,
+            'user_id' => $this->user_id,
+            'compound_id' => $this->compound_id,
             'date' =>$this->created_at,
             'update'=>$this->updated_at
+
         ];
     }
 }
