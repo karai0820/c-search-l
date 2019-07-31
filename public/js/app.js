@@ -50951,25 +50951,25 @@ __webpack_require__.r(__webpack_exports__);
       saved: false,
       compound_name: '',
       structure: '',
-      author: ''
+      chemist: ''
     };
   },
   methods: {
     create: function create() {
       var _this = this;
 
-      this.structure = jsmeApplet1.jmeFile();
+      this.structure = jsmeApplet1.molFile();
       alert(this.structure);
-      alert(this.author);
+      alert(this.chemist);
       alert(this.compound_name);
       var params = new URLSearchParams();
       params.append('compound_name', this.compound_name);
       params.append('structure', this.structure);
-      params.append('author', this.author);
+      params.append('chemist', this.chemist);
       axios.post('/api/compounds', params).then(function (res) {
         _this.compound_name = '';
         _this.structure = '';
-        _this.author = '';
+        _this.chemist = '';
         _this.saved = true;
       })["catch"](function (error) {
         console.log(error);
@@ -51029,21 +51029,127 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {},
-  updated: function updated() {
+  data: function data() {
+    return {
+      methodData: {
+        id: '',
+        compound_id: '',
+        test_area: '',
+        test_title: '',
+        test_day: '',
+        test_scale: '',
+        concentration: '',
+        conc_unit: ''
+      },
+      paddyData: {
+        id: '',
+        compound_id: '',
+        method_id: '',
+        mode_of_action: '',
+        ECHCG: '',
+        ORYSP_1: '',
+        ORYSP_3: '',
+        symptom: '',
+        comment: '',
+        author: '',
+        updater: '',
+        created_at: '',
+        updated_at: ''
+      },
+      uplandData: {
+        id: '',
+        compound_id: '',
+        method_id: '',
+        mode_of_action: '',
+        ECHUT: '',
+        DIGAD: '',
+        ZEAMD: '',
+        TRZAX: '',
+        symptom: '',
+        comment: '',
+        author: '',
+        updater: '',
+        created_at: '',
+        updated_at: ''
+      }
+    };
+  },
+  created: function created() {
     var _this = this;
 
     this.$nextTick(function () {
-      _this.jsme();
+      _this.getMethod();
+    });
+    this.$nextTick(function () {
+      _this.getPaddy();
+    });
+    this.$nextTick(function () {
+      _this.getUpland();
+    });
+  },
+  updated: function updated() {
+    this.$nextTick(function () {
+      jsme();
     });
   },
   methods: {
-    getItem: function getItem() {
+    getMethod: function getMethod() {
       var _this2 = this;
 
-      axios.get('/api/compounds/').then(function (res) {
-        _this2.compoundDetail = res.data.data;
+      axios.get('/api/method/').then(function (res) {
+        _this2.methodData = res.data.data;
+      });
+    },
+    getPaddy: function getPaddy() {
+      var _this3 = this;
+
+      axios.get('/api/paddy/').then(function (res) {
+        _this3.paddyData = res.data.data;
+      });
+    },
+    getUpland: function getUpland() {
+      var _this4 = this;
+
+      axios.get('/api/upland/').then(function (res) {
+        _this4.uplandData = res.data.data;
       });
     },
     jsme: function jsme() {
@@ -51108,7 +51214,169 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'List',
-  props: ["searchData"]
+  props: ["searchData"],
+  method: {
+    jsme: function jsme() {
+      return searchData.structure;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/registry.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/registry.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      saved: false,
+      test_area: '',
+      test_title: '',
+      test_day: '',
+      test_scale: '',
+      concentration: '',
+      conc_unit: '',
+      mode_of_action: '',
+      ECHCG: '',
+      ORYSP_1: '',
+      ORYSP_3: '',
+      symptom: '',
+      comment: '',
+      author: '',
+      updater: ''
+    };
+  },
+  methods: {
+    register: function register() {
+      var _this = this;
+
+      alert(this.test_area);
+      alert(this.test_title);
+      alert(this.test_day);
+      alert(this.concentration);
+      alert(this.conc_unit);
+      var methodParams = new URLSearchParams();
+      methodParams.append('test_area', this.test_area);
+      methodParams.append('test_title', this.test_title);
+      methodParams.append('test_day', this.test_day);
+      methodParams.append('test_day', this.test_scale);
+      methodParams.append('concentration', this.concentration);
+      methodParams.append('conc_unit', this.conc_unit);
+      var paddyParams = new URLSearchParams();
+      paddyParams.append('mode_of_action', this.mode_of_action);
+      paddyParams.append('ECHCG', this.ECHCG);
+      paddyParams.append('ORYSP_1', this.ORYSP_1);
+      paddyParams.append('ORYSP_3', this.ORYSP_3);
+      paddyParams.append('symptom', this.symptom);
+      paddyParams.append('comment', this.comment);
+      paddyParams.append('author', this.author);
+      paddyParams.append('updater', this.updater);
+      axios.post('/api/methods', methodParams).then(function (res) {
+        _this.test_area = '';
+        _this.test_title = '';
+        _this.test_day = '';
+        _this.test_scale = '';
+        _this.concentration = '';
+        _this.conc_unit = '';
+        _this.saved = true;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+      axios.post('/api/paddyHerbicides', paddyParams).then(function (res) {
+        _this.mode_of_action = '';
+        _this.ECHCG = '';
+        _this.ORYSP_1 = '';
+        _this.ORYSP_3 = '';
+        _this.symptom = '';
+        _this.comment = '';
+        _this.author = '';
+        _this.updater = '';
+        _this.saved = true;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -51207,8 +51475,9 @@ __webpack_require__.r(__webpack_exports__);
         id: '',
         compound_name: '',
         structure: '',
-        author: '',
-        date: ''
+        chemist: '',
+        created_at: '',
+        updated_at: ''
       }]
     };
   },
@@ -51229,6 +51498,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get('/api/compounds').then(function (res) {
+        //apiからデータ取得
         var search = _this.compounds;
         /*for(var i=1;i<6;i++){
         let jsme =eval("const jme"+i+"="+"jsmeApplet"+i);
@@ -51237,24 +51507,30 @@ __webpack_require__.r(__webpack_exports__);
 
         var targetText = res.data.data;
         var targetLists = targetText.filter(function (element) {
-          return element.compound_name === search.compound_name || element.author === search.author;
+          //完全一致検索
+          return element.compound_name === search.compound_name || element.chemist === search.chemist;
         });
 
-        for (var i = 0; i < targetLists.length; i++) {
-          _this.compounds.push(targetLists[i]);
-        }
+        if (targetLists != '') {
+          //一致データがない場合には返り値なしで終了
+          for (var i = 0; i < targetLists.length; i++) {
+            _this.compounds.push(targetLists[i]);
+          }
 
-        return _this.compounds.shift();
-        console.log(_this.compounds);
+          return _this.compounds.shift();
+        }
       });
     },
     Jsme: function Jsme() {
+      var jsme = document.createElement('div');
+
       for (var i = 1; i < 6; i++) {
-        var jsme = document.createElement('div');
-        jsme.setAttribute('id', 'eval("jsme_container"+[i+1])');
-        jsme.innerHTML = eval("Stockbox No." + i);
+        jsme.setAttribute('id', eval("jsme_container" + [i + 1]));
+        jsme.textContent = eval("Stockbox No." + i);
         document.getElementById('stockbox').appendChild(jsme);
       }
+
+      ;
     }
   }
   /*computed:{
@@ -51298,7 +51574,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
 //
 //
 //
@@ -87397,19 +87672,19 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.author,
-                        expression: "author"
+                        value: _vm.chemist,
+                        expression: "chemist"
                       }
                     ],
                     staticClass: "form-control",
                     attrs: { type: "text", name: "chemist" },
-                    domProps: { value: _vm.author },
+                    domProps: { value: _vm.chemist },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.author = $event.target.value
+                        _vm.chemist = $event.target.value
                       }
                     }
                   })
@@ -87461,38 +87736,99 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-md-12 mx-auto" }, [
-          _c("div", { staticClass: "searchDetail" }, [
-            _vm._v("\n        //化合物名\n        "),
-            _c("h2", { staticClass: "col-md-12" }, [
-              _vm._v(
-                "化合物名/L-No.:" + _vm._s(_vm.$route.params.name.compound_name)
-              )
-            ]),
-            _vm._v("\n        //構造結果\n        "),
-            _c("div", { attrs: { id: "jsme_container2" } }),
-            _vm._v(" "),
-            _c("param", { attrs: { name: "mol", value: "" } }),
-            _vm._v(
-              "//jsmeへの値の入れ方を考える。\n        \n        //パラメータ \n        "
-            ),
-            _c("table", { staticClass: "table" }, [
-              _vm._m(0),
+          _c(
+            "div",
+            { staticClass: "searchDetail" },
+            [
+              _vm._v("\n        //化合物名\n        "),
+              _c("h2", { staticClass: "col-md-12" }, [
+                _vm._v(
+                  "化合物名/L-No.:" +
+                    _vm._s(_vm.$route.params.name.compound_name)
+                )
+              ]),
+              _vm._v("\n        //構造結果\n        "),
+              _c("div", { attrs: { id: "jsme_container2" } }),
               _vm._v(" "),
-              _c("tbody", [
-                _c("tr", [
-                  _c("th", [_vm._v("合成者")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(_vm.$route.params.name.author))])
-                ]),
+              _c("param", { attrs: { name: "mol", value: "" } }),
+              _vm._v(
+                "//jsmeへの値の入れ方を考える。\n\n\n        //パラメータ \n        "
+              ),
+              _c("table", { staticClass: "table" }, [
+                _vm._m(0),
                 _vm._v(" "),
-                _c("tr", [
-                  _c("th", [_vm._v("登録日")]),
+                _c("tbody", [
+                  _c("tr", [
+                    _c("th", [_vm._v("合成者")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(_vm.$route.params.name.chemist))])
+                  ]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(_vm.$route.params.name.date))])
+                  _c("tr", [
+                    _c("th", [_vm._v("登録日")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(_vm._s(_vm.$route.params.name.created_at))
+                    ])
+                  ])
                 ])
-              ])
-            ])
-          ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "router-link",
+                {
+                  attrs: {
+                    to: {
+                      name: "registry",
+                      params: { name: _vm.$route.params.name.compound_name }
+                    }
+                  }
+                },
+                [_vm._v("Registry")]
+              ),
+              _vm._v(" "),
+              _c("table", { attrs: { cellpadding: "5", cellspacing: "5" } }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c("tbody", [
+                  _c("tr", [
+                    _c("td", [_vm._v(_vm._s(_vm.methodData.test_title))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(_vm.methodData.test_day))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(_vm.methodData.test_scale))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(_vm.methodData.concentration) +
+                          _vm._s(_vm.methodData.conc_unit)
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(_vm.paddyData.ECHCG))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(_vm.paddyData.ORYSP_1))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(_vm.paddyData.ORYSP_3))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(_vm.paddyData.symptom))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(_vm.paddyData.comment))])
+                  ])
+                ])
+              ]),
+              _vm._v(
+                "\n \n      \n        " +
+                  _vm._s(_vm.methodData) +
+                  "\n        " +
+                  _vm._s(_vm.paddyData) +
+                  "\n        " +
+                  _vm._s(_vm.uplandData) +
+                  "\n    "
+              )
+            ],
+            1
+          )
         ])
       ])
     ])
@@ -87504,6 +87840,32 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("thead", [_c("tr", [_c("th", { attrs: { width: "30%" } })])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("試験タイトル")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("試験日")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("試験規模")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("濃度")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("ECHCG")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("ORYSP_1")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("ORYSP_3")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("symptom")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("comment")])
+      ])
+    ])
   }
 ]
 render._withStripped = true
@@ -87556,7 +87918,7 @@ var render = function() {
                 [
                   _c("param", { attrs: { name: "options", value: "depict" } }),
                   _vm._v(" "),
-                  _c("param", { attrs: { name: "mol", value: "" } })
+                  _c("param", { attrs: { name: "jme", value: "jsme" } })
                 ]
               ),
               _vm._v(" "),
@@ -87575,13 +87937,13 @@ var render = function() {
                   _c("tr", [
                     _c("th", [_vm._v("合成者")]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(_vm.searchData.author))])
+                    _c("td", [_vm._v(_vm._s(_vm.searchData.chemist))])
                   ]),
                   _vm._v(" "),
                   _c("tr", [
                     _c("th", [_vm._v("登録日")]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(_vm.searchData.date))])
+                    _c("td", [_vm._v(_vm._s(_vm.searchData.created_at))])
                   ])
                 ])
               ])
@@ -87590,6 +87952,436 @@ var render = function() {
         ],
         1
       )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/registry.vue?vue&type=template&id=7da8e9f0&":
+/*!***********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/registry.vue?vue&type=template&id=7da8e9f0& ***!
+  \***********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("main", { attrs: { role: "main" } }, [
+    _c("div", { staticClass: "container" }, [
+      _c("h1", { staticClass: "jumbotron-heading" }, [
+        _vm._v("Activity Registry")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-12 mx-auto" }, [
+          _c("h2", { staticClass: "col-md-12" }, [
+            _vm._v("化合物名/L-No.:" + _vm._s(_vm.$route.params.name))
+          ]),
+          _vm._v("\n    //入力フォーム\n    "),
+          _c(
+            "form",
+            {
+              staticClass: "searchform",
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.register($event)
+                }
+              }
+            },
+            [
+              _vm._v("\n   \n    //パラメータ入力    \n    "),
+              _c("ul", { staticClass: "form-content" }, [
+                _c("li", [
+                  _c(
+                    "label",
+                    { staticClass: "col-md-12", attrs: { for: "test_area" } },
+                    [_vm._v("試験分野")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.test_area,
+                        expression: "test_area"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", name: "test_area" },
+                    domProps: { value: _vm.test_area },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.test_area = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c(
+                    "label",
+                    { staticClass: "col-md-12", attrs: { for: "test_title" } },
+                    [_vm._v("試験タイトル")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.test_title,
+                        expression: "test_title"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", name: "test_title" },
+                    domProps: { value: _vm.test_title },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.test_title = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c(
+                    "label",
+                    { staticClass: "col-md-12", attrs: { for: "test_day" } },
+                    [_vm._v("試験日")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.test_day,
+                        expression: "test_day"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", name: "test_day" },
+                    domProps: { value: _vm.test_day },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.test_day = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c(
+                    "label",
+                    { staticClass: "col-md-12", attrs: { for: "test_scale" } },
+                    [_vm._v("試験規模")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.test_scale,
+                        expression: "test_scale"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", name: "test_scale" },
+                    domProps: { value: _vm.test_scale },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.test_scale = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-md-12",
+                      attrs: { for: "concentration" }
+                    },
+                    [_vm._v("試験濃度")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.concentration,
+                        expression: "concentration"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", name: "concentration" },
+                    domProps: { value: _vm.concentration },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.concentration = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c(
+                    "label",
+                    { staticClass: "col-md-12", attrs: { for: "conc_unit" } },
+                    [_vm._v("薬量単位")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.conc_unit,
+                        expression: "conc_unit"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", name: "conc_unit" },
+                    domProps: { value: _vm.conc_unit },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.conc_unit = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-md-12",
+                      attrs: { for: "mode_of_action" }
+                    },
+                    [_vm._v("作用機作")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.mode_of_action,
+                        expression: "mode_of_action"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", name: "mode_of_action" },
+                    domProps: { value: _vm.mode_of_action },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.mode_of_action = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c(
+                    "label",
+                    { staticClass: "col-md-12", attrs: { for: "ECHCG" } },
+                    [_vm._v("ノビエ")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.ECHCG,
+                        expression: "ECHCG"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", name: "ECHCG" },
+                    domProps: { value: _vm.ECHCG },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.ECHCG = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c(
+                    "label",
+                    { staticClass: "col-md-12", attrs: { for: "ORYSP_1" } },
+                    [_vm._v("イネ1cm移植")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.ORYSP_1,
+                        expression: "ORYSP_1"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", name: "ORYSP_1" },
+                    domProps: { value: _vm.ORYSP_1 },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.ORYSP_1 = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c(
+                    "label",
+                    { staticClass: "col-md-12", attrs: { for: "ORYSP_3" } },
+                    [_vm._v("イネ3cm移植")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.ORYSP_3,
+                        expression: "ORYSP_3"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", name: "ORYSP_3" },
+                    domProps: { value: _vm.ORYSP_3 },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.ORYSP_3 = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c(
+                    "label",
+                    { staticClass: "col-md-12", attrs: { for: "symptom" } },
+                    [_vm._v("薬徴")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.symptom,
+                        expression: "symptom"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", name: "symptom" },
+                    domProps: { value: _vm.symptom },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.symptom = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c(
+                    "label",
+                    { staticClass: "col-md-12", attrs: { for: "comment" } },
+                    [_vm._v("備考")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.comment,
+                        expression: "comment"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", name: "comment" },
+                    domProps: { value: _vm.comment },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.comment = $event.target.value
+                      }
+                    }
+                  })
+                ])
+              ]),
+              _vm._v("\n    //登録ボタン\n    "),
+              _c(
+                "button",
+                {
+                  staticClass: "button button--inverse",
+                  attrs: { type: "submit" }
+                },
+                [_vm._v("register")]
+              )
+            ]
+          )
+        ])
+      ])
     ])
   ])
 }
@@ -87643,7 +88435,8 @@ var render = function() {
                 on: { click: _vm.BackEditor }
               }),
               _vm._v(" "),
-              _vm._m(1)
+              _vm._m(1),
+              _vm._v("  " + _vm._s(_vm.Jsme) + "    \n  ")
             ]),
             _vm._v(" "),
             _c(
@@ -87733,8 +88526,8 @@ var render = function() {
                     _c("li", [
                       _c(
                         "label",
-                        { staticClass: "col-md-12", attrs: { for: "author" } },
-                        [_vm._v("作成者")]
+                        { staticClass: "col-md-12", attrs: { for: "chemist" } },
+                        [_vm._v("合成者")]
                       ),
                       _vm._v(" "),
                       _c("input", {
@@ -87742,13 +88535,13 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.compounds.author,
-                            expression: "compounds.author"
+                            value: _vm.compounds.chemist,
+                            expression: "compounds.chemist"
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { type: "text", name: "author" },
-                        domProps: { value: _vm.compounds.author },
+                        attrs: { type: "text", name: "chemist" },
+                        domProps: { value: _vm.compounds.chemist },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
@@ -87756,7 +88549,7 @@ var render = function() {
                             }
                             _vm.$set(
                               _vm.compounds,
-                              "author",
+                              "chemist",
                               $event.target.value
                             )
                           }
@@ -87870,13 +88663,7 @@ var render = function() {
           _c("li", { staticClass: "lead" }, [
             _vm._v("Latest No. : " + _vm._s(_vm.latestNo))
           ])
-        ]),
-        _vm._v(" "),
-        _c(
-          "a",
-          { staticClass: "btn btn-secondary my-1", attrs: { href: "/search" } },
-          [_vm._v("Start")]
-        )
+        ])
       ]),
       _vm._v(" "),
       _vm._m(0)
@@ -103056,6 +103843,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/registry.vue":
+/*!**********************************************!*\
+  !*** ./resources/js/components/registry.vue ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _registry_vue_vue_type_template_id_7da8e9f0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./registry.vue?vue&type=template&id=7da8e9f0& */ "./resources/js/components/registry.vue?vue&type=template&id=7da8e9f0&");
+/* harmony import */ var _registry_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./registry.vue?vue&type=script&lang=js& */ "./resources/js/components/registry.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _registry_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _registry_vue_vue_type_template_id_7da8e9f0___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _registry_vue_vue_type_template_id_7da8e9f0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/registry.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/registry.vue?vue&type=script&lang=js&":
+/*!***********************************************************************!*\
+  !*** ./resources/js/components/registry.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_registry_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./registry.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/registry.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_registry_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/registry.vue?vue&type=template&id=7da8e9f0&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/registry.vue?vue&type=template&id=7da8e9f0& ***!
+  \*****************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_registry_vue_vue_type_template_id_7da8e9f0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./registry.vue?vue&type=template&id=7da8e9f0& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/registry.vue?vue&type=template&id=7da8e9f0&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_registry_vue_vue_type_template_id_7da8e9f0___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_registry_vue_vue_type_template_id_7da8e9f0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/search.vue":
 /*!********************************************!*\
   !*** ./resources/js/components/search.vue ***!
@@ -103211,6 +104067,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_list_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/list.vue */ "./resources/js/components/list.vue");
 /* harmony import */ var _components_detail_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/detail.vue */ "./resources/js/components/detail.vue");
 /* harmony import */ var _components_create_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/create.vue */ "./resources/js/components/create.vue");
+/* harmony import */ var _components_registry_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/registry.vue */ "./resources/js/components/registry.vue");
+
 
 
 
@@ -103244,6 +104102,10 @@ var routes = [{
   path: '/edit',
   component: _components_create_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
   name: 'edit'
+}, {
+  path: '/list/:name/registry',
+  component: _components_registry_vue__WEBPACK_IMPORTED_MODULE_7__["default"],
+  name: 'registry'
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',

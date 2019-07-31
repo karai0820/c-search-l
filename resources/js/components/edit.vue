@@ -23,7 +23,7 @@
         <tbody>
             <tr>
             <th>合成者</th>
-            <td>{{compoundDetail.author}}</td>
+            <td>{{compoundDetail.chemist}}</td>
             </tr> 
             <tr>
             <th>登録日</th>
@@ -44,8 +44,8 @@
                 <input type ='date' class ="form-control" name="created_at" v-model="compounds.date">
           </li>
           <li>
-          <label class="col-md-12" for="author">作成者</label>
-            <input type ='text' class ="form-control" name="author" v-model="compounds.author">
+          <label class="col-md-12" for="chemist">作成者</label>
+            <input type ='text' class ="form-control" name="chemist" v-model="compounds.chemist">
           </li>
     </ul>
    </div>

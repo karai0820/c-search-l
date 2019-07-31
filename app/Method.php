@@ -17,4 +17,9 @@ class Method extends Model
         'conc_unit' => 'required',
  
     );
+    public function paddies(){
+        return $this->hasMany('App\Paddy');
+    public function uplands(){
+        return $this->hasMany('App\Upland');
+}
 }

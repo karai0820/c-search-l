@@ -8,7 +8,7 @@
     {{searchData}}
     <div code="JME.class" archive="JME.jar" width=250 height=200>
     <param name="options" value="depict">
-    <param name="mol" value=""> 
+    <param name="jme" value="jsme"> 
     </div>
 
         <table class="table">
@@ -24,11 +24,11 @@
             </tr> 
             <tr>
             <th>合成者</th>
-            <td>{{searchData.author}}</td>
+            <td>{{searchData.chemist}}</td>
             </tr> 
             <tr>
             <th>登録日</th>
-            <td>{{searchData.date}}</td>
+            <td>{{searchData.created_at}}</td>
             </tr>   
         </tbody>    
         </table>
@@ -44,6 +44,11 @@
 export default {
   name: 'List',
   props:["searchData"],
+  method:{
+    jsme(){
+        return searchData.structure;
+    }
+  }
 
   }
 </script>

@@ -18,8 +18,8 @@ class Like extends JsonResource
             'id'=>$this->id,
             'user_id' => $this->user_id,
             'compound_id' => $this->compound_id,
-            'date' =>$this->created_at,
-            'update'=>$this->updated_at
+            'created_at' =>$this->created_at,
+            'updated_at'=>$this->updated_at
 
         ];
     }

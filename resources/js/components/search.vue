@@ -35,7 +35,7 @@
         <div class="col-md-3">
          <div id="jsme_container5">Stockbox No.4</div>
         </div>
-    </div>      
+    </div>  {{Jsme}}    
   </form>
   
 <form class="searchform" @submit.prevent="Search">
@@ -50,8 +50,8 @@
         		<input type ='date' class ="form-control" name="created_at" v-model="compounds.date">
           </li>
           <li>
-          <label class="col-md-12" for="author">作成者</label>
-            <input type ='text' class ="form-control" name="author" v-model="compounds.author">
+          <label class="col-md-12" for="chemist">合成者</label>
+            <input type ='text' class ="form-control" name="chemist" v-model="compounds.chemist">
           </li>
     </ul>
    </div>
@@ -80,7 +80,7 @@ components:{
   data() {
     return {
     compounds:[
-    {id:'',compound_name:'',structure:'',author:'',date:''}
+    {id:'',compound_name:'',structure:'',chemist:'',created_at:'',updated_at:''}
     ]
       }
     
@@ -100,32 +100,33 @@ components:{
       jsmeApplet1.readMolFile(jme);
                 },
     Search(){
-        axios.get('/api/compounds').then((res)=>{
+        axios.get('/api/compounds').then((res)=>{//apiからデータ取得
           const search = this.compounds
           /*for(var i=1;i<6;i++){
           let jsme =eval("const jme"+i+"="+"jsmeApplet"+i);
           jsme.molFile();
         }*/
-          
           const targetText = res.data.data;
-          const targetLists = targetText.filter(function(element){
-                              return element.compound_name === search.compound_name || element.author === search.author 
+          const targetLists = targetText.filter(function(element){//完全一致検索
+                              return element.compound_name === search.compound_name || element.chemist === search.chemist; 
                                });
+          if(targetLists != ''){//一致データがない場合には返り値なしで終了
           for(var i=0;i<targetLists.length;i++){
             this.compounds.push(targetLists[i]); 
           }
+
           return this.compounds.shift();
-          console.log(this.compounds);
+        }
         });
       },
       Jsme(){
+        let jsme = document.createElement('div');
         for(var i=1;i<6;i++){
-          let jsme = document.createElement('div');
-          jsme.setAttribute('id','eval("jsme_container"+[i+1])');
-          jsme.innerHTML = eval("Stockbox No."+i);
+          jsme.setAttribute('id',eval("jsme_container"+[i+1]));
+          jsme.textContent = eval("Stockbox No."+i);
           document.getElementById('stockbox').appendChild(jsme);
-
-      }
+      };
+      
     },
   },
     /*computed:{

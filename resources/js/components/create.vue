@@ -19,7 +19,7 @@
           </li>
           <li>
           <label for="chemist">合成担当者</label>
-            <input type ='text' class ="form-control" name="chemist" v-model="author">
+            <input type ='text' class ="form-control" name="chemist" v-model="chemist">
           </li>
     </ul>
 
@@ -41,27 +41,26 @@ export default {
             saved: false,
             compound_name:'',
             structure:'',
-            author:'',
-            
+            chemist:'',
         }
     },
     methods: {
         create() {
-            this.structure = jsmeApplet1.jmeFile();
+            this.structure = jsmeApplet1.molFile();
             alert(this.structure);
-            alert(this.author);
+            alert(this.chemist);
             alert(this.compound_name);
 
             var params = new URLSearchParams();
             params.append('compound_name',this.compound_name);
             params.append('structure',this.structure); 
-            params.append('author',this.author);
+            params.append('chemist',this.chemist);
             
             axios.post('/api/compounds',params)
             .then((res) => {
                 this.compound_name = '';
                 this.structure ='';
-                this.author = '';
+                this.chemist = '';
                 this.saved = true;
                 }) 
             .catch(error => {

@@ -13,7 +13,6 @@
     <ul>
     <li class="lead">Latest No. : {{latestNo}}</li>
     </ul>
-       <a href="/search" class="btn btn-secondary my-1">Start</a>
   </main>
 
   <footer class="">

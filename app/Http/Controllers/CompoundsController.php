@@ -40,7 +40,7 @@ class CompoundsController extends Controller
     $compound = new Compounds;
     $compound->compound_name = $request->input('compound_name');
     $compound->structure = $request->input('structure');
-    $compound->author = $request->input('author');
+    $compound->chemist = $request->input('chemist');
 
     $compound->save();
 }

@@ -17,7 +17,7 @@ class CreateCompoundsTable extends Migration
             $table->increments('id');
             $table->string('compound_name');
             $table->string('structure');
-            $table->string('author');
+            $table->string('chemist');
             $table->timestamps();
         });
         DB::statement('ALTER TABLE compounds ADD FULLTEXT index content (`structure`) with parser ngram');

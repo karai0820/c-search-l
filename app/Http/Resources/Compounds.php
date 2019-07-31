@@ -18,9 +18,9 @@ class Compounds extends JsonResource
             'id'=>$this->id,
             'compound_name'=>$this->compound_name,
             'structure'=>$this->structure,
-            'author'=>$this->author,
-            'date' =>$this->created_at,
-            'update'=>$this->updated_at
+            'chemist'=>$this->chemist,
+            'created_at' =>$this->created_at,
+            'updated_at'=>$this->updated_at
         ];
     }
 }

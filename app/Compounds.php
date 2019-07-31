@@ -11,7 +11,7 @@ class Compounds extends Model
     public static $rules = array(
     	'compound_name' => 'required|unique:post',
         'structure' => 'required|unique:post',
-        'author' => 'required',
+        'chemist' => 'required',
         'created_at' => 'required',
         'updated_at' => 'required'
 );

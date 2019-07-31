@@ -6,6 +6,8 @@ import List from './components/list.vue';
 import Detail from './components/detail.vue';
 import Create from './components/create.vue';
 import Edit from './components/create.vue';
+import Registry from './components/registry.vue';
+
 
 
 Vue.use(VueRouter);
@@ -17,6 +19,7 @@ const routes=[
     { path: '/list/:name', component:Detail, name: 'detail' }, 
     { path: '/create', component:Create, name: 'create' },
     { path: '/edit', component:Edit, name: 'edit' },
+    { path: '/list/:name/registry', component:Registry, name: 'registry' },
 ];
 
 const router = new VueRouter({

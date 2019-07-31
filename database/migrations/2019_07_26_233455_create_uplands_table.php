@@ -37,6 +37,6 @@ class CreateUplandsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('uplands');
+        Schema::dropIfExists('uplandHerbicides');
     }
 }
