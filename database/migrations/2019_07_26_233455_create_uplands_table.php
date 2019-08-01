@@ -13,7 +13,7 @@ class CreateUplandsTable extends Migration
      */
     public function up()
     {
-        Schema::create('uplandHerbicides', function (Blueprint $table) {
+        Schema::create('uplands', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('compound_id')->references('id')->on('compounds');
             $table->integer('method_id')->references('id')->on('methods');

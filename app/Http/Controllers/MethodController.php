@@ -15,7 +15,7 @@ class MethodController extends Controller
      */
     public function index()
     {
-        return MethodResource::collection(method::all)
+        return MethodResource::collection(Method::all());
     }
 
     /**
@@ -78,13 +78,13 @@ class MethodController extends Controller
      */
     public function update(Request $request, Method $method)
     {
-    $method->compound_id = $request->input('compound_id');
-    $method->test_area = $request->input('test_area');
-    $method->test_title = $request->input('test_title');
-    $method->test_day = $request->input('test_day');
-    $method->test_scale = $request->input('test_scale');
-    $method->concentration = $request->input('concentration');
-    $method->conc_unit = $request->input('conc_unit');
+    $method->compound_id = $request->input('compound_id','');
+    $method->test_area = $request->input('test_area','');
+    $method->test_title = $request->input('test_title','');
+    $method->test_day = $request->input('test_day','');
+    $method->test_scale = $request->input('test_scale','');
+    $method->concentration = $request->input('concentration','');
+    $method->conc_unit = $request->input('conc_unit','');
     $method->save();
     }
 

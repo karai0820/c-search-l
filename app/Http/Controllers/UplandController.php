@@ -15,7 +15,7 @@ class UplandController extends Controller
      */
     public function index()
     {
-        return UplandResource::collection(upland::all)
+        return UplandResource::collection(Upland::all());
     }
 
     /**
@@ -84,19 +84,19 @@ class UplandController extends Controller
      */
     public function update(Request $request, Upland $upland)
     {
-    $upland->compound_id = $request->input('compound_id');
-    $upland->method_id = $request->input('method_id');
-    $upland->mode_of_action = $request->input('mode_of_action');
-    $upland->ECHUT = $request->input('ECHUT');
-    $upland->DIGAD = $request->input('DIGAD');
-    $upland->ZEAMD = $request->input('ZEAMD');
-    $upland->TRZAX = $request->input('TRZAX');
-    $upland->symptom = $request->input('symptom');
-    $upland->comment = $request->input('comment');
-    $upland->author = $request->input('author');
-    $upland->updater = $request->input('updater');
-    $upland->created_at = $request->input('created_at');
-    $upland->updated_at = $request->input('updated_at');
+    $upland->compound_id = $request->input('compound_id','');
+    $upland->method_id = $request->input('method_id','');
+    $upland->mode_of_action = $request->input('mode_of_action','');
+    $upland->ECHUT = $request->input('ECHUT','');
+    $upland->DIGAD = $request->input('DIGAD','');
+    $upland->ZEAMD = $request->input('ZEAMD','');
+    $upland->TRZAX = $request->input('TRZAX','');
+    $upland->symptom = $request->input('symptom','');
+    $upland->comment = $request->input('comment','');
+    $upland->author = $request->input('author','');
+    $upland->updater = $request->input('updater','');
+    $upland->created_at = $request->input('created_at','');
+    $upland->updated_at = $request->input('updated_at','');
     $upland->save();
     }
 

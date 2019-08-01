@@ -51112,7 +51112,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
-  created: function created() {
+  mounted: function mounted() {
     var _this = this;
 
     this.$nextTick(function () {
@@ -51134,21 +51134,21 @@ __webpack_require__.r(__webpack_exports__);
     getMethod: function getMethod() {
       var _this2 = this;
 
-      axios.get('/api/method/').then(function (res) {
+      axios.get('/api/methods').then(function (res) {
         _this2.methodData = res.data.data;
       });
     },
     getPaddy: function getPaddy() {
       var _this3 = this;
 
-      axios.get('/api/paddy/').then(function (res) {
+      axios.get('/api/paddies').then(function (res) {
         _this3.paddyData = res.data.data;
       });
     },
     getUpland: function getUpland() {
       var _this4 = this;
 
-      axios.get('/api/upland/').then(function (res) {
+      axios.get('/api/uplands').then(function (res) {
         _this4.uplandData = res.data.data;
       });
     },

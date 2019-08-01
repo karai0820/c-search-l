@@ -15,7 +15,7 @@ class LikeController extends Controller
      */
     public function index()
     {
-        return LikeResource::collection(like::all)
+        return LikeResource::collection(Like::all());
     }
 
     /**
@@ -75,10 +75,10 @@ class LikeController extends Controller
      */
     public function update(Request $request, Like $like)
     {
-    $like->user_id = $request->input('user_id');
-    $like->compound_id = $request->input('dompound_id');
-    $like->created_at = $request->input('created_at');
-    $like->updated_at = $request->input('updated_at');
+    $like->user_id = $request->input('user_id','');
+    $like->compound_id = $request->input('dompound_id','');
+    $like->created_at = $request->input('created_at','');
+    $like->updated_at = $request->input('updated_at','');
 
     $like->save();
     }

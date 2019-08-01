@@ -13,7 +13,7 @@ class CreatePaddiesTable extends Migration
      */
     public function up()
      {
-        Schema::create('paddyHerbicides', function (Blueprint $table) {
+        Schema::create('paddies', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('compound_id')->references('id')->on('compounds');
             $table->integer('method_id')->references('id')->on('methods');

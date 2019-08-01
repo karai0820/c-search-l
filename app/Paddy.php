@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class Paddy extends Model
-{
+{	
     protected $guarded = array('id');
     public static $rules = array(
     	'compound_id' => 'required',
@@ -13,7 +13,7 @@ class Paddy extends Model
         'author' => 'required',
         'updater' => 'required',
         'created_at' => 'required',
-        'updated_at' => 'required'
+        'updated_at' => 'required',
  
     );
 }

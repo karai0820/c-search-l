@@ -15,7 +15,7 @@ class PaddyController extends Controller
      */
     public function index()
     {
-        return PaddyResource::collection(paddy::all)
+        return PaddyResource::collection(Paddy::all());
     }
 
     /**
@@ -83,18 +83,18 @@ class PaddyController extends Controller
      */
     public function update(Request $request, Paddy $paddy)
     {
-    $paddy->compound_id = $request->input('compound_id');
-    $paddy->method_id = $request->input('method_id');
-    $paddy->mode_of_action = $request->input('mode_of_action');
-    $paddy->ECHCG = $request->input('ECHCG');
-    $paddy->ORYSP_1 = $request->input('ORYSP_1');
-    $paddy->ORYSP_3 = $request->input('ORYSP_3');
-    $paddy->symptom = $request->input('symptom');
-    $paddy->comment = $request->input('comment');
-    $paddy->author = $request->input('author');
-    $paddy->updater = $request->input('updater');
-    $paddy->created_at = $request->input('created_at');
-    $paddy->updated_at = $request->input('updated_at');
+    $paddy->compound_id = $request->input('compound_id','');
+    $paddy->method_id = $request->input('method_id','');
+    $paddy->mode_of_action = $request->input('mode_of_action','');
+    $paddy->ECHCG = $request->input('ECHCG','');
+    $paddy->ORYSP_1 = $request->input('ORYSP_1','');
+    $paddy->ORYSP_3 = $request->input('ORYSP_3','');
+    $paddy->symptom = $request->input('symptom','');
+    $paddy->comment = $request->input('comment','');
+    $paddy->author = $request->input('author','');
+    $paddy->updater = $request->input('updater','');
+    $paddy->created_at = $request->input('created_at','');
+    $paddy->updated_at = $request->input('updated_at','');
     $paddy->save();
     }
 

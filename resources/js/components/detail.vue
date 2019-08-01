@@ -123,7 +123,7 @@ export default {
         }
     },
    
-    created(){
+    mounted(){
     this.$nextTick(()=>{this.getMethod();});
     this.$nextTick(()=>{this.getPaddy();});
     this.$nextTick(()=>{this.getUpland();});
@@ -133,19 +133,19 @@ export default {
     },
     methods:{
         getMethod() {
-            axios.get('/api/method/')
+            axios.get('/api/methods')
             .then( ( res ) => {
                 this.methodData = res.data.data;
             });
             },
         getPaddy() {
-            axios.get('/api/paddy/')
+            axios.get('/api/paddies')
             .then( ( res ) => {
                 this.paddyData = res.data.data;
             });
             },
         getUpland() {
-            axios.get('/api/upland/')
+            axios.get('/api/uplands')
             .then( ( res ) => {
                 this.uplandData = res.data.data;
             });
