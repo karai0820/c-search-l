@@ -16,7 +16,6 @@
     <option>1</option>
     <option>2</option>
     <option>3</option>
-    <option>4</option>
     </select>
     <input type="button" class="btn btn-primary " @click="Stock"  value="Editor→Stock">
     <input type="button" class="btn btn-primary " @click="BackEditor"  value="Stock→Editor">
@@ -30,12 +29,9 @@
          <div id="jsme_container3">Stockbox No.2</div>
         </div>
         <div class="col-md-3">
-          <div id="C">Stockbox No.3</div>
+          <div id="jsme_container4">Stockbox No.3</div>
         </div>
-        <div class="col-md-3">
-         <div id="jsme_container5">Stockbox No.4</div>
-        </div>
-    </div>  {{Jsme}}    
+    </div> 
   </form>
   
 <form class="searchform" @submit.prevent="Search">
@@ -57,10 +53,10 @@
    </div>
    
    <div id="search-area"></div>
-   <button type='submit'>Search</button>
+   <button type='submit' v-on:click='SearchCount'>Search</button>
 
   	</form>
-    <div id="hit-num">{{}}</div>
+    <div id="hit-num"></div>
     <List v-for="(compound,key) in compounds" :key="key" :searchData="compound"></List>
     
     
@@ -128,35 +124,25 @@ components:{
       };
       
     },
-  },
-    /*computed:{
       SearchCount(){
-        axios.get('/api/compounds').then((res)=>{
-          var search = this.compounds;
-          const targetText = res.data.data;
-          const targetLists = targetText.filter(function(element){
-                              return element.compound_name === search.compound_name || element.author === search.author;
-                               });
-          
-           for(var i=0;i<targetLists.length;i++){
-            this.compounds.push(targetLists[i]); 
-          }
           console.log(this.compounds);
-          
-          //const hitNum = document.querySelector('#hit-num');
-          //hitNum.textContent ='検索結果:'+this.searchData.length+'件';//複数回メソッドを走らせると追記されてしまう（要修正）
-        });
+          let searchCount = this.compounds.length
+          let hitNum = document.querySelector('#hit-num');
+          hitNum.textContent ='検索結果:'+searchCount+'件';//複数回メソッドを走らせると追記されてしまう（要修正）
+        }
         //return this.searchData.length-1;//無限ループ
-        /*const list = document.querySelector('#list');
-          const element = document.createElement("List") 
-          element.setAttribute('v-for','searchdata as this.searchData');
-          element.setAttribute('v-bind:searchData','searchdata');
-          list.appendChild(element);*/
+        //const list = document.querySelector('#list');
+          //const element = document.createElement("List") 
+          //element.setAttribute('v-for','searchdata as this.searchData');
+          //element.setAttribute('v-bind:searchData','searchdata');
+          //list.appendChild(element);
 
           //const hitNum = document.querySelector('#hit-num');
           //hitNum.textContent ='検索結果:'+this.searchData.length+'件';//複数回メソッドを走らせると追記されてしまう（要修正）
     //}
     //}
 }
+}
+
 
 </script>  

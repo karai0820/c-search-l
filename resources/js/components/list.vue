@@ -4,13 +4,8 @@
     <div class="row">
     <div class="col-md-12 mx-auto">
     
-    <router-link :to="{name:'detail',params:{name:searchData}}" class="list-group-item">
-    {{searchData}}
-    <div code="JME.class" archive="JME.jar" width=250 height=200>
-    <param name="options" value="depict">
-    <param name="jme" value="jsme"> 
-    </div>
-
+    <router-link :to="{name:'detail',params:{name:searchData}}" v-on:click="session" class="list-group-item">
+    <div id="jsme_container5"></div>
         <table class="table">
         <thead>
             <tr>
@@ -44,11 +39,23 @@
 export default {
   name: 'List',
   props:["searchData"],
-  method:{
-    jsme(){
-        return searchData.structure;
-    }
+  updated(){
+    this.$nextTick(()=>{this.Jsme();}); 
+  },
+  methods:{
+    session(){
+      window.sessionStorage.setItem('arr',this.searchData);
+         },
+    Jsme(){
+         let jsmeApplet5 = new JSApplet.JSME("jsme_container5", "240px", "200px", {"options" : "depict"});
+    let mol = this.searchData.structure;
+    jsmeApplet5.readMolFile(mol);   
+        },
   }
+  }
+ 
 
-  }
+ //this function will be called after the JavaScriptApplet code has been loaded.
+    
+
 </script>

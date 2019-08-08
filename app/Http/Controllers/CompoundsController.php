@@ -76,8 +76,9 @@ class CompoundsController extends Controller
      */
     // 更新
     public function update(Request $request, Compounds $compounds) {
-    $compounds->compound_name = $request->input('compound_name','');
-    $compounds->structure = $request->input('structure','');
+    $compounds->compound_name = $request->compound_name;
+    $compounds->structure = $request->structure;
+    $compounds->chemist = $request->chemist;
 
     $compounds->save();
 }

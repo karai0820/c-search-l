@@ -24,7 +24,7 @@
 
     <!--JSME -->
     
-    <script type="text/javascript" language="javascript" src="https://peter-ertl.com/jsme/JSME_2017-02-26/jsme/jsme.nocache.js"></script>
+    <script type="text/javascript" language="javascript" src="jsme/jsme.nocache.js" defer></script>
     
    
     <script>
@@ -34,7 +34,7 @@
         jsmeApplet2 = new JSApplet.JSME("jsme_container2", "240px", "200px", {"options" : "depict"});
         jsmeApplet3 = new JSApplet.JSME("jsme_container3", "240px", "200px", {"options" : "depict"});
         jsmeApplet4 = new JSApplet.JSME("jsme_container4", "240px", "200px", {"options" : "depict"});
-        jsmeApplet5 = new JSApplet.JSME("jsme_container5", "240px", "200px", {"options" : "depict"});
+      
     }
     </script> 
 

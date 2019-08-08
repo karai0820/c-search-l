@@ -5,13 +5,12 @@
         <h1 class="jumbotron-heading">Structure Detail</h1>
     <div class="row">
     <div class="col-md-12 mx-auto">
-    
+    {{$route.params.name}}
     <div class="searchDetail">
         //化合物名
         <h2 class="col-md-12">化合物名/L-No.:{{$route.params.name.compound_name}}</h2>
         //構造結果
-        <div id="jsme_container2"></div>
-        <param name="mol" value="">//jsmeへの値の入れ方を考える。
+        <div id="jsme_container5"></div>
 
 
         //パラメータ 
@@ -33,7 +32,7 @@
         </tbody>    
         </table>
 
-        <router-link :to="{name:'registry',params:{name:$route.params.name.compound_name}}">Registry</router-link>
+        <router-link :to="{name:'edit',params:{name:$route.params.name}}">Edit</router-link>
 
             <table cellpadding="5" cellspacing="5">
             <thead> 
@@ -68,6 +67,7 @@
         {{methodData}}
         {{paddyData}}
         {{uplandData}}
+        {{arr}}
     </div>
     </div>
   </div>
@@ -77,6 +77,7 @@
 </template>
 <script>
 export default {
+   
     data(){
         return{
             methodData:{
@@ -119,17 +120,17 @@ export default {
                 updater:'',
                 created_at:'',
                 updated_at:'',
-            }
+            },
+            arr:'',
         }
     },
-   
     mounted(){
     this.$nextTick(()=>{this.getMethod();});
     this.$nextTick(()=>{this.getPaddy();});
     this.$nextTick(()=>{this.getUpland();});
-    },
-    updated(){
-    this.$nextTick(()=>{jsme();});
+    this.$nextTick(()=>{this.getSession();});
+    this.$nextTick(()=>{this.Jsme();});
+
     },
     methods:{
         getMethod() {
@@ -150,15 +151,16 @@ export default {
                 this.uplandData = res.data.data;
             });
             },
+         getSession(){
+            this.arr = window.sessionStorage.getItem('arr');
+         },
+         Jsme(){
+            let jsmeApplet5 = new JSApplet.JSME("jsme_container5", "240px", "200px", {"options" : "depict"});
+            let mol = this.$route.params.name.structure;
+            jsmeApplet5.readMolFile(mol);
+         }   
 
 
-
-
-
-    jsme(){
-    var mol = "O=C(O)c4cn(C1CC1)c3cc(N2CCNCC2)c(F)cc3c4=O |JME 2000.10 Mon Nov 06 13:13:26 GMT+01:00 2000 || 24 27                            V2000 |    3.9755   -8.0947    0.0000 O                               |    7.6150  -10.1944    0.0000 O                               |    5.1953  -10.1944    0.0000 O                               |   12.4643   -8.7946    0.0000 F                               |   10.0346   -8.7946    0.0000 C                               |   10.0346   -5.9950    0.0000 C                               |    6.4051   -6.6949    0.0000 C                               |   13.6741   -3.8953    0.0000 C                               |   14.8839   -5.9950    0.0000 C                               |    6.9151   -3.3754    0.0000 C                               |    8.3149   -3.3754    0.0000 C                               |   12.4643   -4.5952    0.0000 C                               |   13.6741   -6.6949    0.0000 C                               |   14.8839   -4.5952    0.0000 N                               |    5.1953   -8.7946    0.0000 C                               |   11.2544   -8.0947    0.0000 C                               |    6.4051   -8.0947    0.0000 C                               |   11.2544   -6.6949    0.0000 C                               |    7.6150   -8.7946    0.0000 C                               |    8.8248   -8.0947    0.0000 C                               |    8.8248   -6.6949    0.0000 C                               |    7.6150   -4.5952    0.0000 C                               |   12.4643   -5.9950    0.0000 N                               |    7.6150   -5.9950    0.0000 N                               |  1 15  2  0         |  2 19  2  0         |  3 15  1  0         |  4 16  1  0         |  5 16  1  0         |  5 20  2  0         |  6 18  1  0         |  6 21  2  0         |  7 17  2  0         |  7 24  1  0         |  8 12  1  0         |  8 14  1  0         |  9 13  1  0         |  9 14  1  0         | 10 11  1  0         | 10 22  1  0         | 11 22  1  0         | 12 23  1  0         | 13 23  1  0         | 15 17  1  0         | 16 18  2  0         | 17 19  1  0         | 18 23  1  0         | 19 20  1  0         | 20 21  1  0         | 21 24  1  0         | 22 24  1  0         |M  END ";
-    jsmeApplet2.readMolFile(mol);
-}
 }
 }
 </script>
