@@ -51223,7 +51223,12 @@ __webpack_require__.r(__webpack_exports__);
       compound_name: this.$route.params.name.compound_name,
       structure: this.$route.params.name.structure,
       chemist: this.$route.params.name.chemist,
-      arr: window.sessionStorage.getItem('arr')
+      request: {
+        id: '',
+        compound_name: '',
+        structure: '',
+        chemist: ''
+      }
     };
   },
   mounted: function mounted() {
@@ -51243,10 +51248,11 @@ __webpack_require__.r(__webpack_exports__);
       alert(this.chemist);
       alert(this.compound_name);
       var params = new URLSearchParams();
+      params.append('id', this.id);
       params.append('compound_name', this.compound_name);
       params.append('structure', this.structure);
       params.append('chemist', this.chemist);
-      axios.patch('/api/compounds/', params)["catch"](function (error) {
+      axios.patch('/api/compounds/' + this.$route.params.name.id, params)["catch"](function (error) {
         console.log(error);
         alert('修正しました');
       });
@@ -51569,6 +51575,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "search",
@@ -51584,7 +51591,8 @@ __webpack_require__.r(__webpack_exports__);
         chemist: '',
         created_at: '',
         updated_at: ''
-      }]
+      }],
+      saved: false
     };
   },
   methods: {
@@ -51617,15 +51625,30 @@ __webpack_require__.r(__webpack_exports__);
           return element.compound_name === search.compound_name || element.chemist === search.chemist;
         });
 
-        if (targetLists != '') {
+        if (targetLists != '' && _this.saved == false) {
           //一致データがない場合には返り値なしで終了
           for (var i = 0; i < targetLists.length; i++) {
             _this.compounds.push(targetLists[i]);
+
+            _this.saved = true;
           }
 
-          return _this.compounds.shift();
+          _this.compounds.shift();
+
+          var hitNum = document.querySelector('#hit-num');
+          var searchCount = _this.compounds.length - 1;
+          hitNum.textContent = '検索結果:' + searchCount + '件'; //複数回メソッドを走らせると追記されてしまう（要修正）
         }
       });
+    },
+    SearchReset: function SearchReset() {
+      this.compounds.id = '';
+      this.compounds.compound_name = '';
+      this.compounds.structure = '';
+      this.compounds.chemist = '';
+      this.compounds.created_at = '';
+      this.compounds.updated_at = '';
+      this.saved = false;
     },
     Jsme: function Jsme() {
       var jsme = document.createElement('div');
@@ -51637,23 +51660,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       ;
-    },
-    SearchCount: function SearchCount() {
-      console.log(this.compounds);
-      var searchCount = this.compounds.length;
-      var hitNum = document.querySelector('#hit-num');
-      hitNum.textContent = '検索結果:' + searchCount + '件'; //複数回メソッドを走らせると追記されてしまう（要修正）
-    } //return this.searchData.length-1;//無限ループ
-    //const list = document.querySelector('#list');
-    //const element = document.createElement("List") 
-    //element.setAttribute('v-for','searchdata as this.searchData');
-    //element.setAttribute('v-bind:searchData','searchdata');
-    //list.appendChild(element);
-    //const hitNum = document.querySelector('#hit-num');
-    //hitNum.textContent ='検索結果:'+this.searchData.length+'件';//複数回メソッドを走らせると追記されてしまう（要修正）
-    //}
-    //}
-
+    }
   }
 });
 
@@ -88765,11 +88772,11 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { attrs: { id: "search-area" } }),
                 _vm._v(" "),
-                _c(
-                  "button",
-                  { attrs: { type: "submit" }, on: { click: _vm.SearchCount } },
-                  [_vm._v("Search")]
-                )
+                _c("button", { attrs: { type: "submit" } }, [_vm._v("Search")]),
+                _vm._v(" "),
+                _c("button", { on: { click: _vm.SearchReset } }, [
+                  _vm._v("SearchReset")
+                ])
               ]
             ),
             _vm._v(" "),

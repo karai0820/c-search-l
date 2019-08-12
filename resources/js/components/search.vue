@@ -53,11 +53,12 @@
    </div>
    
    <div id="search-area"></div>
-   <button type='submit' v-on:click='SearchCount'>Search</button>
+   <button type='submit' >Search</button>
+   <button v-on:click='SearchReset' >SearchReset</button>
 
   	</form>
     <div id="hit-num"></div>
-    <List v-for="(compound,key) in compounds" :key="key" :searchData="compound"></List>
+    <List v-for="(compound,key) in compounds" :key="key" :searchData="compound" ></List>
     
     
 </div>
@@ -77,7 +78,8 @@ components:{
     return {
     compounds:[
     {id:'',compound_name:'',structure:'',chemist:'',created_at:'',updated_at:''}
-    ]
+    ],
+    saved:false,
       }
     
   },
@@ -97,7 +99,7 @@ components:{
                 },
     Search(){
         axios.get('/api/compounds').then((res)=>{//apiからデータ取得
-          const search = this.compounds
+          const search = this.compounds;
           /*for(var i=1;i<6;i++){
           let jsme =eval("const jme"+i+"="+"jsmeApplet"+i);
           jsme.molFile();
@@ -106,14 +108,28 @@ components:{
           const targetLists = targetText.filter(function(element){//完全一致検索
                               return element.compound_name === search.compound_name || element.chemist === search.chemist; 
                                });
-          if(targetLists != ''){//一致データがない場合には返り値なしで終了
+          if(targetLists != '' && this.saved == false){//一致データがない場合には返り値なしで終了
           for(var i=0;i<targetLists.length;i++){
             this.compounds.push(targetLists[i]); 
+            this.saved =true;
           }
+          this.compounds.shift();
 
-          return this.compounds.shift();
+          let hitNum = document.querySelector('#hit-num');
+          let searchCount = this.compounds.length-1;
+          hitNum.textContent ='検索結果:'+searchCount+'件';//複数回メソッドを走らせると追記されてしまう（要修正）
         }
         });
+      },
+      SearchReset(){
+        this.compounds.id = '';
+        this.compounds.compound_name='';
+        this.compounds.structure='';
+        this.compounds.chemist='';
+        this.compounds.created_at='';
+        this.compounds.updated_at='';
+        this.saved = false;
+
       },
       Jsme(){
         let jsme = document.createElement('div');
@@ -124,12 +140,7 @@ components:{
       };
       
     },
-      SearchCount(){
-          console.log(this.compounds);
-          let searchCount = this.compounds.length
-          let hitNum = document.querySelector('#hit-num');
-          hitNum.textContent ='検索結果:'+searchCount+'件';//複数回メソッドを走らせると追記されてしまう（要修正）
-        }
+    
         //return this.searchData.length-1;//無限ループ
         //const list = document.querySelector('#list');
           //const element = document.createElement("List") 

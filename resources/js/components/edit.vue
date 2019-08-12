@@ -44,7 +44,12 @@ export default {
             compound_name:this.$route.params.name.compound_name,
             structure:this.$route.params.name.structure,
             chemist:this.$route.params.name.chemist,
-            arr:window.sessionStorage.getItem('arr'),
+            request:{
+                id:'',
+                compound_name:'',
+                structure:'',
+                chemist:''
+            }
 
         }
     },
@@ -60,11 +65,12 @@ export default {
             alert(this.compound_name);
 
             var params = new URLSearchParams();
+            params.append('id',this.id);
             params.append('compound_name',this.compound_name);
             params.append('structure',this.structure); 
             params.append('chemist',this.chemist);
 
-            axios.patch('/api/compounds/',params).catch(error => {
+            axios.patch('/api/compounds/'+this.$route.params.name.id,params).catch(error => {
                 console.log(error);
                 alert('修正しました');
            
