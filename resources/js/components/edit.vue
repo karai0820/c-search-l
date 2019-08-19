@@ -10,7 +10,7 @@
     <form class="searchform" v-on:submit.prevent="edit">
     
     //構造入力
-    <div id="jsme_container1"></div>
+    <div id="jsme_container6"></div>
     //パラメータ入力    
     <ul class="form-content">
           <li>
@@ -27,7 +27,8 @@
     <button type="submit" class="button button--inverse">register</button>
 　　</form>
 
-{{$route.params.name}}
+<!--{{$route.params.name}}-->
+{{getData}}
 
   </div>
   </div>
@@ -40,7 +41,7 @@ export default {
     data() {
         return {
             saved: false,
-            id:this.$route.params.name.id,
+            getid:this.$route.params.name.id,
             compound_name:this.$route.params.name.compound_name,
             structure:this.$route.params.name.structure,
             chemist:this.$route.params.name.chemist,
@@ -49,13 +50,14 @@ export default {
                 compound_name:'',
                 structure:'',
                 chemist:''
-            }
+            },
+            getData:'',
 
         }
     },
     mounted(){
-     this.$nextTick(()=>{this.getSession();});
-     this.$nextTick(()=>{this.Jsme();});       
+     this.$nextTick(()=>{this.Jsme();});
+     this.$nextTick(()=>{this.getSession();});       
     },
     methods: {
         edit() {
@@ -78,10 +80,13 @@ export default {
             });
         },
       },
+      getSession(){
+            this.getData = JSON.parse(sessionStorage.getItem('arr'));
+          },
       Jsme(){
-        let jsmeApplet1 = new JSApplet.JSME("jsme_container1", "400px", "300px");
-         let mol = this.structure;
-        jsmeApplet1.readMolFile(mol);
+        jsmeApplet6 = new JSApplet.JSME("jsme_container6", "380px", "340px");
+        let mol = this.structure;
+        jsmeApplet6.readMolFile(mol);
       }
 
     }

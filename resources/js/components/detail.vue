@@ -5,10 +5,10 @@
         <h1 class="jumbotron-heading">Structure Detail</h1>
     <div class="row">
     <div class="col-md-12 mx-auto">
-    {{$route.params.name}}
+    <!--全データ{{$route.params.name}}-->
     <div class="searchDetail">
         //化合物名
-        <h2 class="col-md-12">化合物名/L-No.:{{$route.params.name.compound_name}}</h2>
+        <h2 class="col-md-12">化合物名/L-No.:{{getData.compound_name}}</h2>
         //構造結果
         <div id="jsme_container5"></div>
 
@@ -23,16 +23,16 @@
         <tbody>
             <tr>
             <th>合成者</th>
-            <td>{{$route.params.name.chemist}}</td>
+            <td>{{getData.chemist}}</td>
             </tr> 
             <tr>
             <th>登録日</th>
-            <td>{{$route.params.name.created_at}}</td>
+            <td>{{getData.created_at}}</td>
             </tr>   
         </tbody>    
         </table>
 
-        <router-link :to="{name:'edit',params:{name:$route.params.name}}">Edit</router-link>
+        <router-link :to="{name:'edit',params:{name:getData}}">Edit</router-link>
 
             <table cellpadding="5" cellspacing="5">
             <thead> 
@@ -67,7 +67,7 @@
         {{methodData}}
         {{paddyData}}
         {{uplandData}}
-        {{arr}}
+        {{getData}}
     </div>
     </div>
   </div>
@@ -121,7 +121,7 @@ export default {
                 created_at:'',
                 updated_at:'',
             },
-            arr:'',
+            getData:'',
         }
     },
     mounted(){
@@ -131,6 +131,9 @@ export default {
     this.$nextTick(()=>{this.getSession();});
     this.$nextTick(()=>{this.Jsme();});
 
+    },
+    updated(){
+    this.$nextTick(()=>{this.session();}); 
     },
     methods:{
         getMethod() {
@@ -152,11 +155,12 @@ export default {
             });
             },
          getSession(){
-            this.arr = window.sessionStorage.getItem('arr');
+            this.getData = JSON.parse(sessionStorage.getItem('arr'));
+            
          },
          Jsme(){
-            let jsmeApplet5 = new JSApplet.JSME("jsme_container5", "240px", "200px", {"options" : "depict"});
-            let mol = this.$route.params.name.structure;
+            jsmeApplet5 = new JSApplet.JSME("jsme_container5", "240px", "200px", {"options" : "depict"});
+            let mol = this.getData.structure;
             jsmeApplet5.readMolFile(mol);
          }   
 

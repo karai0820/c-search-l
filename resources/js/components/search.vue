@@ -54,11 +54,14 @@
    
    <div id="search-area"></div>
    <button type='submit' >Search</button>
+   
+   <!--
    <button v-on:click='SearchReset' >SearchReset</button>
+    -->
 
   	</form>
     <div id="hit-num"></div>
-    <List v-for="(compound,key) in compounds" :key="key" :searchData="compound" ></List>
+    <List v-for="(compound,key) in compounds" :key="key" :searchData="compound"></List>
     
     
 </div>
@@ -106,7 +109,7 @@ components:{
         }*/
           const targetText = res.data.data;
           const targetLists = targetText.filter(function(element){//完全一致検索
-                              return element.compound_name === search.compound_name || element.chemist === search.chemist; 
+                              return element.compound_name === search.compound_name || element.chemist === search.chemist || element.structure === search.structure; 
                                });
           if(targetLists != '' && this.saved == false){//一致データがない場合には返り値なしで終了
           for(var i=0;i<targetLists.length;i++){
@@ -115,12 +118,14 @@ components:{
           }
           this.compounds.shift();
 
+          //検索件数表示
           let hitNum = document.querySelector('#hit-num');
           let searchCount = this.compounds.length-1;
-          hitNum.textContent ='検索結果:'+searchCount+'件';//複数回メソッドを走らせると追記されてしまう（要修正）
+          hitNum.textContent ='検索結果:'+searchCount+'件';
         }
         });
       },
+
       SearchReset(){
         this.compounds.id = '';
         this.compounds.compound_name='';
@@ -140,16 +145,13 @@ components:{
       };
       
     },
-    
+        //フォーム入力による自動件数表示
         //return this.searchData.length-1;//無限ループ
         //const list = document.querySelector('#list');
           //const element = document.createElement("List") 
           //element.setAttribute('v-for','searchdata as this.searchData');
           //element.setAttribute('v-bind:searchData','searchdata');
           //list.appendChild(element);
-
-          //const hitNum = document.querySelector('#hit-num');
-          //hitNum.textContent ='検索結果:'+this.searchData.length+'件';//複数回メソッドを走らせると追記されてしまう（要修正）
     //}
     //}
 }

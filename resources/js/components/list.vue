@@ -3,8 +3,7 @@
     <div class="container">
     <div class="row">
     <div class="col-md-12 mx-auto">
-    
-    <router-link :to="{name:'detail',params:{name:searchData}}" v-on:click="session" class="list-group-item">
+    <router-link :to="{name:'detail',params:{name:searchData}}" class="list-group-item">
     <div id="jsme_container5"></div>
         <table class="table">
         <thead>
@@ -38,24 +37,21 @@
 <script>
 export default {
   name: 'List',
-  props:["searchData"],
+  props:['searchData'],
   updated(){
     this.$nextTick(()=>{this.Jsme();}); 
+    this.$nextTick(()=>{this.session();}); 
+
   },
   methods:{
     session(){
-      window.sessionStorage.setItem('arr',this.searchData);
+      sessionStorage.setItem('arr',JSON.stringify(this.searchData));
          },
     Jsme(){
-         let jsmeApplet5 = new JSApplet.JSME("jsme_container5", "240px", "200px", {"options" : "depict"});
     let mol = this.searchData.structure;
     jsmeApplet5.readMolFile(mol);   
         },
   }
   }
  
-
- //this function will be called after the JavaScriptApplet code has been loaded.
-    
-
 </script>

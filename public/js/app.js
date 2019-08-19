@@ -51110,7 +51110,7 @@ __webpack_require__.r(__webpack_exports__);
         created_at: '',
         updated_at: ''
       },
-      arr: ''
+      getData: ''
     };
   },
   mounted: function mounted() {
@@ -51132,36 +51132,43 @@ __webpack_require__.r(__webpack_exports__);
       _this.Jsme();
     });
   },
+  updated: function updated() {
+    var _this2 = this;
+
+    this.$nextTick(function () {
+      _this2.session();
+    });
+  },
   methods: {
     getMethod: function getMethod() {
-      var _this2 = this;
+      var _this3 = this;
 
       axios.get('/api/methods').then(function (res) {
-        _this2.methodData = res.data.data;
+        _this3.methodData = res.data.data;
       });
     },
     getPaddy: function getPaddy() {
-      var _this3 = this;
+      var _this4 = this;
 
       axios.get('/api/paddies').then(function (res) {
-        _this3.paddyData = res.data.data;
+        _this4.paddyData = res.data.data;
       });
     },
     getUpland: function getUpland() {
-      var _this4 = this;
+      var _this5 = this;
 
       axios.get('/api/uplands').then(function (res) {
-        _this4.uplandData = res.data.data;
+        _this5.uplandData = res.data.data;
       });
     },
     getSession: function getSession() {
-      this.arr = window.sessionStorage.getItem('arr');
+      this.getData = JSON.parse(sessionStorage.getItem('arr'));
     },
     Jsme: function Jsme() {
-      var jsmeApplet5 = new JSApplet.JSME("jsme_container5", "240px", "200px", {
+      jsmeApplet5 = new JSApplet.JSME("jsme_container5", "240px", "200px", {
         "options": "depict"
       });
-      var mol = this.$route.params.name.structure;
+      var mol = this.getData.structure;
       jsmeApplet5.readMolFile(mol);
     }
   }
@@ -51215,11 +51222,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       saved: false,
-      id: this.$route.params.name.id,
+      getid: this.$route.params.name.id,
       compound_name: this.$route.params.name.compound_name,
       structure: this.$route.params.name.structure,
       chemist: this.$route.params.name.chemist,
@@ -51228,17 +51236,18 @@ __webpack_require__.r(__webpack_exports__);
         compound_name: '',
         structure: '',
         chemist: ''
-      }
+      },
+      getData: ''
     };
   },
   mounted: function mounted() {
     var _this = this;
 
     this.$nextTick(function () {
-      _this.getSession();
+      _this.Jsme();
     });
     this.$nextTick(function () {
-      _this.Jsme();
+      _this.getSession();
     });
   },
   methods: {
@@ -51258,10 +51267,13 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
+  getSession: function getSession() {
+    this.getData = JSON.parse(sessionStorage.getItem('arr'));
+  },
   Jsme: function Jsme() {
-    var jsmeApplet1 = new JSApplet.JSME("jsme_container1", "400px", "300px");
+    jsmeApplet6 = new JSApplet.JSME("jsme_container6", "380px", "340px");
     var mol = this.structure;
-    jsmeApplet1.readMolFile(mol);
+    jsmeApplet6.readMolFile(mol);
   }
 });
 
@@ -51312,30 +51324,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'List',
-  props: ["searchData"],
+  props: ['searchData'],
   updated: function updated() {
     var _this = this;
 
     this.$nextTick(function () {
       _this.Jsme();
     });
+    this.$nextTick(function () {
+      _this.session();
+    });
   },
   methods: {
     session: function session() {
-      window.sessionStorage.setItem('arr', this.searchData);
+      sessionStorage.setItem('arr', JSON.stringify(this.searchData));
     },
     Jsme: function Jsme() {
-      var jsmeApplet5 = new JSApplet.JSME("jsme_container5", "240px", "200px", {
-        "options": "depict"
-      });
       var mol = this.searchData.structure;
       jsmeApplet5.readMolFile(mol);
     }
-  } //this function will be called after the JavaScriptApplet code has been loaded.
-
+  }
 });
 
 /***/ }),
@@ -51576,6 +51586,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "search",
@@ -51622,7 +51635,7 @@ __webpack_require__.r(__webpack_exports__);
         var targetText = res.data.data;
         var targetLists = targetText.filter(function (element) {
           //完全一致検索
-          return element.compound_name === search.compound_name || element.chemist === search.chemist;
+          return element.compound_name === search.compound_name || element.chemist === search.chemist || element.structure === search.structure;
         });
 
         if (targetLists != '' && _this.saved == false) {
@@ -51633,11 +51646,12 @@ __webpack_require__.r(__webpack_exports__);
             _this.saved = true;
           }
 
-          _this.compounds.shift();
+          _this.compounds.shift(); //検索件数表示
+
 
           var hitNum = document.querySelector('#hit-num');
           var searchCount = _this.compounds.length - 1;
-          hitNum.textContent = '検索結果:' + searchCount + '件'; //複数回メソッドを走らせると追記されてしまう（要修正）
+          hitNum.textContent = '検索結果:' + searchCount + '件';
         }
       });
     },
@@ -87837,17 +87851,13 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-md-12 mx-auto" }, [
-          _vm._v("\n    " + _vm._s(_vm.$route.params.name) + "\n    "),
           _c(
             "div",
             { staticClass: "searchDetail" },
             [
               _vm._v("\n        //化合物名\n        "),
               _c("h2", { staticClass: "col-md-12" }, [
-                _vm._v(
-                  "化合物名/L-No.:" +
-                    _vm._s(_vm.$route.params.name.compound_name)
-                )
+                _vm._v("化合物名/L-No.:" + _vm._s(_vm.getData.compound_name))
               ]),
               _vm._v("\n        //構造結果\n        "),
               _c("div", { attrs: { id: "jsme_container5" } }),
@@ -87859,15 +87869,13 @@ var render = function() {
                   _c("tr", [
                     _c("th", [_vm._v("合成者")]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(_vm.$route.params.name.chemist))])
+                    _c("td", [_vm._v(_vm._s(_vm.getData.chemist))])
                   ]),
                   _vm._v(" "),
                   _c("tr", [
                     _c("th", [_vm._v("登録日")]),
                     _vm._v(" "),
-                    _c("td", [
-                      _vm._v(_vm._s(_vm.$route.params.name.created_at))
-                    ])
+                    _c("td", [_vm._v(_vm._s(_vm.getData.created_at))])
                   ])
                 ])
               ]),
@@ -87875,12 +87883,7 @@ var render = function() {
               _c(
                 "router-link",
                 {
-                  attrs: {
-                    to: {
-                      name: "edit",
-                      params: { name: _vm.$route.params.name }
-                    }
-                  }
+                  attrs: { to: { name: "edit", params: { name: _vm.getData } } }
                 },
                 [_vm._v("Edit")]
               ),
@@ -87923,7 +87926,7 @@ var render = function() {
                   "\n        " +
                   _vm._s(_vm.uplandData) +
                   "\n        " +
-                  _vm._s(_vm.arr) +
+                  _vm._s(_vm.getData) +
                   "\n    "
               )
             ],
@@ -88009,7 +88012,7 @@ var render = function() {
             },
             [
               _vm._v("\n    \n    //構造入力\n    "),
-              _c("div", { attrs: { id: "jsme_container1" } }),
+              _c("div", { attrs: { id: "jsme_container6" } }),
               _vm._v("\n    //パラメータ入力    \n    "),
               _c("ul", { staticClass: "form-content" }, [
                 _c("li", [
@@ -88088,7 +88091,8 @@ var render = function() {
               )
             ]
           ),
-          _vm._v("\n\n" + _vm._s(_vm.$route.params.name) + "\n\n  ")
+          _vm._v(" "),
+          _vm._v("\n" + _vm._s(_vm.getData) + "\n\n  ")
         ])
       ])
     ])
@@ -88128,8 +88132,7 @@ var render = function() {
               staticClass: "list-group-item",
               attrs: {
                 to: { name: "detail", params: { name: _vm.searchData } }
-              },
-              on: { click: _vm.session }
+              }
             },
             [
               _c("div", { attrs: { id: "jsme_container5" } }),
@@ -88772,11 +88775,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { attrs: { id: "search-area" } }),
                 _vm._v(" "),
-                _c("button", { attrs: { type: "submit" } }, [_vm._v("Search")]),
-                _vm._v(" "),
-                _c("button", { on: { click: _vm.SearchReset } }, [
-                  _vm._v("SearchReset")
-                ])
+                _c("button", { attrs: { type: "submit" } }, [_vm._v("Search")])
               ]
             ),
             _vm._v(" "),
