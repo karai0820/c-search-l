@@ -32,7 +32,7 @@
         </tbody>    
         </table>
 
-        <router-link :to="{name:'edit',params:{name:getData}}">Edit</router-link>
+        <router-link :to="{name:'edit',params:{name:$route.params.name}}">Edit</router-link>
 
             <table cellpadding="5" cellspacing="5">
             <thead> 
@@ -131,6 +131,7 @@ export default {
     this.$nextTick(()=>{this.getSession();});
     this.$nextTick(()=>{this.Jsme();});
 
+
     },
     updated(){
     this.$nextTick(()=>{this.session();}); 
@@ -154,6 +155,9 @@ export default {
                 this.uplandData = res.data.data;
             });
             },
+        session(){
+            sessionStorage.setItem('arr',JSON.stringify(this.getData));
+         },
          getSession(){
             this.getData = JSON.parse(sessionStorage.getItem('arr'));
             

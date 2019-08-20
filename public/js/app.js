@@ -51161,6 +51161,9 @@ __webpack_require__.r(__webpack_exports__);
         _this5.uplandData = res.data.data;
       });
     },
+    session: function session() {
+      sessionStorage.setItem('arr', JSON.stringify(this.getData));
+    },
     getSession: function getSession() {
       this.getData = JSON.parse(sessionStorage.getItem('arr'));
     },
@@ -51226,28 +51229,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      saved: false,
-      getid: this.$route.params.name.id,
-      compound_name: this.$route.params.name.compound_name,
-      structure: this.$route.params.name.structure,
-      chemist: this.$route.params.name.chemist,
-      request: {
+      getData: {
         id: '',
         compound_name: '',
         structure: '',
-        chemist: ''
+        chemist: '',
+        updated_at: '',
+        created_at: ''
       },
-      getData: ''
+      saved: false
     };
   },
   mounted: function mounted() {
     var _this = this;
 
     this.$nextTick(function () {
-      _this.Jsme();
-    });
-    this.$nextTick(function () {
       _this.getSession();
+    });
+  },
+  updated: function updated() {
+    var _this2 = this;
+
+    this.$nextTick(function () {
+      _this2.Jsme();
     });
   },
   methods: {
@@ -51267,13 +51271,16 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
+  session: function session() {
+    sessionStorage.setItem('arr', JSON.stringify(this.getData));
+  },
   getSession: function getSession() {
     this.getData = JSON.parse(sessionStorage.getItem('arr'));
   },
   Jsme: function Jsme() {
-    jsmeApplet6 = new JSApplet.JSME("jsme_container6", "380px", "340px");
+    jsmeApplet1 = new JSApplet.JSME("jsme_container1", "380px", "340px");
     var mol = this.structure;
-    jsmeApplet6.readMolFile(mol);
+    jsmeApplet1.readMolFile(mol);
   }
 });
 
@@ -51343,7 +51350,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     Jsme: function Jsme() {
       var mol = this.searchData.structure;
-      jsmeApplet5.readMolFile(mol);
+      jsmeApplet5.readSmiles(mol);
     }
   }
 });
@@ -51624,34 +51631,45 @@ __webpack_require__.r(__webpack_exports__);
     Search: function Search() {
       var _this = this;
 
-      axios.get('/api/compounds').then(function (res) {
-        //apiからデータ取得
-        var search = _this.compounds;
-        /*for(var i=1;i<6;i++){
-        let jsme =eval("const jme"+i+"="+"jsmeApplet"+i);
-        jsme.molFile();
-        }*/
+      this.compounds.structure = jsmeApplet1.smiles();
+      var search = this.compounds; //検索用レコード取得      
 
-        var targetText = res.data.data;
+      axios.get('/api/compounds') //apiからデータ取得
+      .then(function (res) {
+        var targetText = res.data.data; //DBデータ取得
+
+        alert(search.structure); //molファイルの場合は日付データが入る為完全一致だと引っかからない、jmeファイルの場合は座標データが入る為完全一致検索で引っかからない
+
+        alert(JSON.stringify(targetText[17]));
         var targetLists = targetText.filter(function (element) {
-          //完全一致検索
-          return element.compound_name === search.compound_name || element.chemist === search.chemist || element.structure === search.structure;
+          //完全一致OR検索
+          return element.compound_name == search.compound_name || element.chemist == search.chemist || element.structure == search.structure;
         });
 
         if (targetLists != '' && _this.saved == false) {
           //一致データがない場合には返り値なしで終了
           for (var i = 0; i < targetLists.length; i++) {
             _this.compounds.push(targetLists[i]);
-
-            _this.saved = true;
           }
 
-          _this.compounds.shift(); //検索件数表示
+          _this.saved = true;
+
+          _this.compounds.shift(); //検索用レコードを削除
+          //検索件数表示
 
 
           var hitNum = document.querySelector('#hit-num');
-          var searchCount = _this.compounds.length - 1;
+          var searchCount = _this.compounds.length;
           hitNum.textContent = '検索結果:' + searchCount + '件';
+        } else {
+          alert('一致する化合物はありません');
+          alert(JSON.stringify(_this.compounds)); //検索件数表示
+
+          var _hitNum = document.querySelector('#hit-num');
+
+          var _searchCount = _this.compounds.length - 1;
+
+          _hitNum.textContent = '検索結果:' + _searchCount + '件';
         }
       });
     },
@@ -87883,7 +87901,12 @@ var render = function() {
               _c(
                 "router-link",
                 {
-                  attrs: { to: { name: "edit", params: { name: _vm.getData } } }
+                  attrs: {
+                    to: {
+                      name: "edit",
+                      params: { name: _vm.$route.params.name }
+                    }
+                  }
                 },
                 [_vm._v("Edit")]
               ),
@@ -88012,7 +88035,7 @@ var render = function() {
             },
             [
               _vm._v("\n    \n    //構造入力\n    "),
-              _c("div", { attrs: { id: "jsme_container6" } }),
+              _c("div", { attrs: { id: "jsme_container1" } }),
               _vm._v("\n    //パラメータ入力    \n    "),
               _c("ul", { staticClass: "form-content" }, [
                 _c("li", [
@@ -88092,7 +88115,7 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _vm._v("\n" + _vm._s(_vm.getData) + "\n\n  ")
+          _vm._v("\n" + _vm._s(_vm.getData) + "sss\n\n  ")
         ])
       ])
     ])
@@ -88131,7 +88154,10 @@ var render = function() {
             {
               staticClass: "list-group-item",
               attrs: {
-                to: { name: "detail", params: { name: _vm.searchData } }
+                to: {
+                  name: "detail",
+                  params: { name: _vm.searchData.compound_name }
+                }
               }
             },
             [

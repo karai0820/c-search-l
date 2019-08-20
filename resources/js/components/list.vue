@@ -3,7 +3,7 @@
     <div class="container">
     <div class="row">
     <div class="col-md-12 mx-auto">
-    <router-link :to="{name:'detail',params:{name:searchData}}" class="list-group-item">
+    <router-link :to="{name:'detail',params:{name:searchData.compound_name}}" class="list-group-item">
     <div id="jsme_container5"></div>
         <table class="table">
         <thead>
@@ -49,7 +49,7 @@ export default {
          },
     Jsme(){
     let mol = this.searchData.structure;
-    jsmeApplet5.readMolFile(mol);   
+    jsmeApplet5.readSmiles(mol);   
         },
   }
   }

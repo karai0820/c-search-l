@@ -10,7 +10,7 @@
     <form class="searchform" v-on:submit.prevent="edit">
     
     //構造入力
-    <div id="jsme_container6"></div>
+    <div id="jsme_container1"></div>
     //パラメータ入力    
     <ul class="form-content">
           <li>
@@ -28,7 +28,7 @@
 　　</form>
 
 <!--{{$route.params.name}}-->
-{{getData}}
+{{getData}}sss
 
   </div>
   </div>
@@ -40,24 +40,24 @@
 export default {
     data() {
         return {
+          getData:{
+            id:'',
+            compound_name:'',
+            structure:'',
+            chemist:'',
+            updated_at:'',
+            created_at:''
+          },
             saved: false,
-            getid:this.$route.params.name.id,
-            compound_name:this.$route.params.name.compound_name,
-            structure:this.$route.params.name.structure,
-            chemist:this.$route.params.name.chemist,
-            request:{
-                id:'',
-                compound_name:'',
-                structure:'',
-                chemist:''
-            },
-            getData:'',
-
+            
         }
     },
     mounted(){
-     this.$nextTick(()=>{this.Jsme();});
-     this.$nextTick(()=>{this.getSession();});       
+    this.$nextTick(()=>{this.getSession();});   
+    },
+    updated(){
+     this.$nextTick(()=>{this.Jsme();});   
+    
     },
     methods: {
         edit() {
@@ -80,13 +80,16 @@ export default {
             });
         },
       },
-      getSession(){
+      session(){
+            sessionStorage.setItem('arr',JSON.stringify(this.getData));
+         },
+         getSession(){
             this.getData = JSON.parse(sessionStorage.getItem('arr'));
           },
-      Jsme(){
-        jsmeApplet6 = new JSApplet.JSME("jsme_container6", "380px", "340px");
+          Jsme(){
+        jsmeApplet1 = new JSApplet.JSME("jsme_container1", "380px", "340px");
         let mol = this.structure;
-        jsmeApplet6.readMolFile(mol);
+        jsmeApplet1.readMolFile(mol);
       }
 
     }
