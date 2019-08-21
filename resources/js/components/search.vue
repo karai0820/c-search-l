@@ -100,16 +100,14 @@ components:{
       alert("Editorに移動します");
       jsmeApplet1.readMolFile(jme);
                 },
-    Search(){
+    CompleteSearch(){//完全一致検索(SMILES)
         this.compounds.structure = jsmeApplet1.smiles();
         const search = this.compounds;//検索用レコード取得      
         axios.get('/api/compounds')//apiからデータ取得
         .then((res)=>{
           const targetText = res.data.data;//DBデータ取得
-          alert(search.structure);//molファイルの場合は日付データが入る為完全一致だと引っかからない、jmeファイルの場合は座標データが入る為完全一致検索で引っかからない
-          alert(JSON.stringify(targetText[17]));
           const targetLists = targetText.filter(function(element){//完全一致OR検索
-                              return element.compound_name == search.compound_name || element.chemist == search.chemist || element.structure == search.structure ; 
+                              return element.compound_name === search.compound_name || element.chemist === search.chemist || element.structure.indexOf(search.structure) === 0; 
                                });
           if(targetLists != '' && this.saved == false){//一致データがない場合には返り値なしで終了
           for(var i=0;i<targetLists.length;i++){
@@ -125,6 +123,76 @@ components:{
             alert('一致する化合物はありません');
           
           alert(JSON.stringify(this.compounds));
+
+          //検索件数表示
+          let hitNum = document.querySelector('#hit-num');
+          let searchCount = this.compounds.length-1;
+          hitNum.textContent ='検索結果:'+searchCount+'件';
+          }
+        });
+      },
+      Search(){//部分一致検索(SMILES)->検索漏れあり
+        this.compounds.structure = jsmeApplet1.smiles();
+        const search = this.compounds;//検索用レコード取得     
+        axios.get('/api/compounds')//apiからデータ取得
+        .then((res)=>{
+          const targetText = res.data.data;//DBデータ取得
+          const targetLists = targetText.filter(function(element){//部分一致OR検索
+                              return element.compound_name.indexOf(search.compound_name) >-1 || element.chemist.indexOf(search.chemist) > -1 || element.structure.indexOf(search.structure) >-1 ; 
+                               });
+          if(targetLists != '' && this.saved == false){//一致データがない場合には返り値なしで終了
+          for(var i=0;i<targetLists.length;i++){
+            this.compounds.push(targetLists[i]); 
+          }
+            this.saved =true;
+            this.compounds.shift();//検索用レコードを削除
+            //検索件数表示
+            let hitNum = document.querySelector('#hit-num');
+            let searchCount = this.compounds.length;
+            hitNum.textContent ='検索結果:'+searchCount+'件';
+          }else{
+            alert('一致する化合物はありません');
+          
+          alert(JSON.stringify(this.compounds));
+
+          //検索件数表示
+          let hitNum = document.querySelector('#hit-num');
+          let searchCount = this.compounds.length-1;
+          hitNum.textContent ='検索結果:'+searchCount+'件';
+          }
+        });
+      },
+      MolSearch(){//部分一致検索(MOL)→完全一致検索になってしまう。
+        let structure = jsmeApplet1.molFile();
+        let array = structure.split('\n');
+        array.shift();
+        array.shift();
+        array.shift();
+        array.pop();
+        array.pop();
+        this.compounds.structure = array.join('\n');
+        alert(JSON.stringify(this.compounds.structure));//valueが表示されない？
+        const search = this.compounds;//検索用レコード取得    
+        axios.get('/api/compounds')//apiからデータ取得
+        .then((res)=>{
+          const targetText = res.data.data;//DBデータ取得
+          const targetLists = targetText.filter(function(element){//部分一致OR検索
+                              return element.compound_name.indexOf(search.compound_name) > -1 || element.chemist.indexOf(search.chemist) > -1 || element.structure.indexOf(search.structure) > -1 ; 
+                               });
+          if(targetLists != '' && this.saved == false){//一致データがない場合には返り値なしで終了
+          for(var i=0;i<targetLists.length;i++){
+            this.compounds.push(targetLists[i]); 
+          }
+            this.saved =true;
+            this.compounds.shift();//検索用レコードを削除
+            //検索件数表示
+            let hitNum = document.querySelector('#hit-num');
+            let searchCount = this.compounds.length;
+            hitNum.textContent ='検索結果:'+searchCount+'件';
+          }else{
+            alert('一致する化合物はありません');
+          
+          //alert(JSON.stringify(this.compounds));
 
           //検索件数表示
           let hitNum = document.querySelector('#hit-num');

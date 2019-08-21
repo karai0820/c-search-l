@@ -49,7 +49,7 @@ export default {
          },
     Jsme(){
     let mol = this.searchData.structure;
-    jsmeApplet5.readSmiles(mol);   
+    jsmeApplet5.readMolFile(mol);   
         },
   }
   }

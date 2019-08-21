@@ -51350,7 +51350,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     Jsme: function Jsme() {
       var mol = this.searchData.structure;
-      jsmeApplet5.readSmiles(mol);
+      jsmeApplet5.readMolFile(mol);
     }
   }
 });
@@ -51628,9 +51628,10 @@ __webpack_require__.r(__webpack_exports__);
       alert("Editorに移動します");
       jsmeApplet1.readMolFile(jme);
     },
-    Search: function Search() {
+    CompleteSearch: function CompleteSearch() {
       var _this = this;
 
+      //完全一致検索(SMILES)
       this.compounds.structure = jsmeApplet1.smiles();
       var search = this.compounds; //検索用レコード取得      
 
@@ -51638,12 +51639,9 @@ __webpack_require__.r(__webpack_exports__);
       .then(function (res) {
         var targetText = res.data.data; //DBデータ取得
 
-        alert(search.structure); //molファイルの場合は日付データが入る為完全一致だと引っかからない、jmeファイルの場合は座標データが入る為完全一致検索で引っかからない
-
-        alert(JSON.stringify(targetText[17]));
         var targetLists = targetText.filter(function (element) {
           //完全一致OR検索
-          return element.compound_name == search.compound_name || element.chemist == search.chemist || element.structure == search.structure;
+          return element.compound_name === search.compound_name || element.chemist === search.chemist || element.structure.indexOf(search.structure) === 0;
         });
 
         if (targetLists != '' && _this.saved == false) {
@@ -51670,6 +51668,101 @@ __webpack_require__.r(__webpack_exports__);
           var _searchCount = _this.compounds.length - 1;
 
           _hitNum.textContent = '検索結果:' + _searchCount + '件';
+        }
+      });
+    },
+    Search: function Search() {
+      var _this2 = this;
+
+      //部分一致検索(SMILES)->検索漏れあり
+      this.compounds.structure = jsmeApplet1.smiles();
+      var search = this.compounds; //検索用レコード取得     
+
+      axios.get('/api/compounds') //apiからデータ取得
+      .then(function (res) {
+        var targetText = res.data.data; //DBデータ取得
+
+        var targetLists = targetText.filter(function (element) {
+          //部分一致OR検索
+          return element.compound_name.indexOf(search.compound_name) > -1 || element.chemist.indexOf(search.chemist) > -1 || element.structure.indexOf(search.structure) > -1;
+        });
+
+        if (targetLists != '' && _this2.saved == false) {
+          //一致データがない場合には返り値なしで終了
+          for (var i = 0; i < targetLists.length; i++) {
+            _this2.compounds.push(targetLists[i]);
+          }
+
+          _this2.saved = true;
+
+          _this2.compounds.shift(); //検索用レコードを削除
+          //検索件数表示
+
+
+          var hitNum = document.querySelector('#hit-num');
+          var searchCount = _this2.compounds.length;
+          hitNum.textContent = '検索結果:' + searchCount + '件';
+        } else {
+          alert('一致する化合物はありません');
+          alert(JSON.stringify(_this2.compounds)); //検索件数表示
+
+          var _hitNum2 = document.querySelector('#hit-num');
+
+          var _searchCount2 = _this2.compounds.length - 1;
+
+          _hitNum2.textContent = '検索結果:' + _searchCount2 + '件';
+        }
+      });
+    },
+    MolSearch: function MolSearch() {
+      var _this3 = this;
+
+      //部分一致検索(MOL)→完全一致検索になってしまう。
+      var structure = jsmeApplet1.molFile();
+      var array = structure.split('\n');
+      array.shift();
+      array.shift();
+      array.shift();
+      array.pop();
+      array.pop();
+      this.compounds.structure = array.join('\n');
+      alert(JSON.stringify(this.compounds.structure)); //valueが表示されない？
+
+      var search = this.compounds; //検索用レコード取得    
+
+      axios.get('/api/compounds') //apiからデータ取得
+      .then(function (res) {
+        var targetText = res.data.data; //DBデータ取得
+
+        var targetLists = targetText.filter(function (element) {
+          //部分一致OR検索
+          return element.compound_name.indexOf(search.compound_name) > -1 || element.chemist.indexOf(search.chemist) > -1 || element.structure.indexOf(search.structure) > -1;
+        });
+
+        if (targetLists != '' && _this3.saved == false) {
+          //一致データがない場合には返り値なしで終了
+          for (var i = 0; i < targetLists.length; i++) {
+            _this3.compounds.push(targetLists[i]);
+          }
+
+          _this3.saved = true;
+
+          _this3.compounds.shift(); //検索用レコードを削除
+          //検索件数表示
+
+
+          var hitNum = document.querySelector('#hit-num');
+          var searchCount = _this3.compounds.length;
+          hitNum.textContent = '検索結果:' + searchCount + '件';
+        } else {
+          alert('一致する化合物はありません'); //alert(JSON.stringify(this.compounds));
+          //検索件数表示
+
+          var _hitNum3 = document.querySelector('#hit-num');
+
+          var _searchCount3 = _this3.compounds.length - 1;
+
+          _hitNum3.textContent = '検索結果:' + _searchCount3 + '件';
         }
       });
     },
