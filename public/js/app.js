@@ -51349,6 +51349,9 @@ __webpack_require__.r(__webpack_exports__);
       sessionStorage.setItem('arr', JSON.stringify(this.searchData));
     },
     Jsme: function Jsme() {
+      jsmeApplet5 = new JSApplet.JSME("jsme_container5", "240px", "200px", {
+        "options": "depict"
+      });
       var mol = this.searchData.structure;
       jsmeApplet5.readMolFile(mol);
     }
@@ -51671,7 +51674,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    Search: function Search() {
+    SmileSearch: function SmileSearch() {
       var _this2 = this;
 
       //部分一致検索(SMILES)->検索漏れあり
@@ -51703,8 +51706,7 @@ __webpack_require__.r(__webpack_exports__);
           var searchCount = _this2.compounds.length;
           hitNum.textContent = '検索結果:' + searchCount + '件';
         } else {
-          alert('一致する化合物はありません');
-          alert(JSON.stringify(_this2.compounds)); //検索件数表示
+          alert('一致する化合物はありません'); //検索件数表示
 
           var _hitNum2 = document.querySelector('#hit-num');
 
@@ -51717,16 +51719,27 @@ __webpack_require__.r(__webpack_exports__);
     MolSearch: function MolSearch() {
       var _this3 = this;
 
-      //部分一致検索(MOL)→完全一致検索になってしまう。
-      var structure = jsmeApplet1.molFile();
-      var array = structure.split('\n');
-      array.shift();
-      array.shift();
-      array.shift();
-      array.pop();
-      array.pop();
-      this.compounds.structure = array.join('\n');
-      alert(JSON.stringify(this.compounds.structure)); //valueが表示されない？
+      //部分一致検索(MOL)
+      var structure = jsmeApplet1.molFile(); //jsmeからmolfile取得
+      //molfileから検索用文字列を切り出し
+
+      var searchText = structure.split('\n'); //改行部分で分割
+
+      var length = searchText[3].split(' '); //切り出す為の数値取得開始
+
+      length.shift();
+
+      if (length[0] == '') {
+        length.shift();
+      }
+
+      var num = Number(length[0]) + 4; //切り出す為の数値取得完了
+
+      searchText.splice(0, num); //前方削除
+
+      searchText.splice(-2, 2); //後方削除
+
+      this.compounds.structure = searchText.join('\n'); //改行で連結
 
       var search = this.compounds; //検索用レコード取得    
 
@@ -51755,8 +51768,7 @@ __webpack_require__.r(__webpack_exports__);
           var searchCount = _this3.compounds.length;
           hitNum.textContent = '検索結果:' + searchCount + '件';
         } else {
-          alert('一致する化合物はありません'); //alert(JSON.stringify(this.compounds));
-          //検索件数表示
+          alert('一致する化合物はありません'); //検索件数表示
 
           var _hitNum3 = document.querySelector('#hit-num');
 
@@ -51765,15 +51777,6 @@ __webpack_require__.r(__webpack_exports__);
           _hitNum3.textContent = '検索結果:' + _searchCount3 + '件';
         }
       });
-    },
-    SearchReset: function SearchReset() {
-      this.compounds.id = '';
-      this.compounds.compound_name = '';
-      this.compounds.structure = '';
-      this.compounds.chemist = '';
-      this.compounds.created_at = '';
-      this.compounds.updated_at = '';
-      this.saved = false;
     },
     Jsme: function Jsme() {
       var jsme = document.createElement('div');
@@ -88779,7 +88782,7 @@ var render = function() {
                 on: {
                   submit: function($event) {
                     $event.preventDefault()
-                    return _vm.Search($event)
+                    return _vm.MolSearch($event)
                   }
                 }
               },
@@ -88900,8 +88903,11 @@ var render = function() {
             _vm._v(" "),
             _c("div", { attrs: { id: "hit-num" } }),
             _vm._v(" "),
-            _vm._l(_vm.compounds, function(compound, key) {
-              return _c("List", { key: key, attrs: { searchData: compound } })
+            _vm._l(_vm.compounds, function(compound) {
+              return _c("List", {
+                key: compound.id,
+                attrs: { searchData: compound }
+              })
             })
           ],
           2

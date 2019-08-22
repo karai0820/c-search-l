@@ -34,7 +34,7 @@
     </div> 
   </form>
   
-<form class="searchform" @submit.prevent="Search">
+<form class="searchform" @submit.prevent="MolSearch">
     <div lass="form-layout">
       <ul class="form-content">
           <li>
@@ -61,7 +61,7 @@
 
   	</form>
     <div id="hit-num"></div>
-    <List v-for="(compound,key) in compounds" :key="key" :searchData="compound"></List>
+    <List v-for="compound in compounds" :key="compound.id" :searchData="compound"></List>
     
     
 </div>
@@ -131,7 +131,7 @@ components:{
           }
         });
       },
-      Search(){//部分一致検索(SMILES)->検索漏れあり
+      SmileSearch(){//部分一致検索(SMILES)->検索漏れあり
         this.compounds.structure = jsmeApplet1.smiles();
         const search = this.compounds;//検索用レコード取得     
         axios.get('/api/compounds')//apiからデータ取得
@@ -153,7 +153,6 @@ components:{
           }else{
             alert('一致する化合物はありません');
           
-          alert(JSON.stringify(this.compounds));
 
           //検索件数表示
           let hitNum = document.querySelector('#hit-num');
@@ -162,17 +161,21 @@ components:{
           }
         });
       },
-      MolSearch(){//部分一致検索(MOL)→完全一致検索になってしまう。
-        let structure = jsmeApplet1.molFile();
-        let array = structure.split('\n');
-        array.shift();
-        array.shift();
-        array.shift();
-        array.pop();
-        array.pop();
-        this.compounds.structure = array.join('\n');
-        alert(JSON.stringify(this.compounds.structure));//valueが表示されない？
-        const search = this.compounds;//検索用レコード取得    
+      MolSearch(){//部分一致検索(MOL)
+        let structure = jsmeApplet1.molFile();//jsmeからmolfile取得
+        //molfileから検索用文字列を切り出し
+        let searchText = structure.split('\n');//改行部分で分割
+        let length = searchText[3].split(' ');//切り出す為の数値取得開始
+        length.shift();
+        if(length[0] == ''){
+          length.shift();
+        }
+        const num = Number(length[0])+4;//切り出す為の数値取得完了
+        searchText.splice(0,num);//前方削除
+        searchText.splice(-2,2);//後方削除
+        this.compounds.structure = searchText.join('\n');//改行で連結
+
+        let search = this.compounds;//検索用レコード取得    
         axios.get('/api/compounds')//apiからデータ取得
         .then((res)=>{
           const targetText = res.data.data;//DBデータ取得
@@ -191,26 +194,13 @@ components:{
             hitNum.textContent ='検索結果:'+searchCount+'件';
           }else{
             alert('一致する化合物はありません');
-          
-          //alert(JSON.stringify(this.compounds));
-
+      
           //検索件数表示
           let hitNum = document.querySelector('#hit-num');
           let searchCount = this.compounds.length-1;
           hitNum.textContent ='検索結果:'+searchCount+'件';
           }
         });
-      },
-
-      SearchReset(){
-        this.compounds.id = '';
-        this.compounds.compound_name='';
-        this.compounds.structure='';
-        this.compounds.chemist='';
-        this.compounds.created_at='';
-        this.compounds.updated_at='';
-        this.saved = false;
-
       },
       Jsme(){
         let jsme = document.createElement('div');
@@ -232,6 +222,5 @@ components:{
     //}
 }
 }
-
 
 </script>  

@@ -22,25 +22,6 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <!--own Styles-->
 
-    <!--JSME -->
-    
-    <script type="text/javascript" language="javascript" src="jsme/jsme.nocache.js" defer></script>
-    
-   
-    <script defer>
- //this function will be called after the JavaScriptApplet code has been loaded.
-    function jsmeOnLoad() {
-        jsmeApplet1 = new JSApplet.JSME("jsme_container1", "380px", "340px");
-        jsmeApplet2 = new JSApplet.JSME("jsme_container2", "240px", "200px", {"options" : "depict"});
-        jsmeApplet3 = new JSApplet.JSME("jsme_container3", "240px", "200px", {"options" : "depict"});
-        jsmeApplet4 = new JSApplet.JSME("jsme_container4", "240px", "200px", {"options" : "depict"});
-        jsmeApplet5 = new JSApplet.JSME("jsme_container5", "240px", "200px", {"options" : "depict"});
-        
-
-      
-    }
-    </script> 
-
 
 </head>
 <!--headまで作成20190509-->
@@ -124,7 +105,22 @@
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
         <!--own Script-->
+    <!--JSME -->
     
+    <script type="text/javascript" language="javascript" src="jsme/jsme.nocache.js" defer></script>
+    
+   
+    <script>
+ //this function will be called after the JavaScriptApplet code has been loaded.
+    function jsmeOnLoad() {
+        jsmeApplet1 = new JSApplet.JSME("jsme_container1", "380px", "340px");
+        jsmeApplet2 = new JSApplet.JSME("jsme_container2", "240px", "200px", {"options" : "depict"});
+        jsmeApplet3 = new JSApplet.JSME("jsme_container3", "240px", "200px", {"options" : "depict"});
+        jsmeApplet4 = new JSApplet.JSME("jsme_container4", "240px", "200px", {"options" : "depict"});
+        jsmeApplet5 = new JSApplet.JSME("jsme_container5", "240px", "200px", {"options" : "depict"});
+        
+    }
+    </script> 
 
         
     

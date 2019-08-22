@@ -48,6 +48,7 @@ export default {
       sessionStorage.setItem('arr',JSON.stringify(this.searchData));
          },
     Jsme(){
+    jsmeApplet5 = new JSApplet.JSME("jsme_container5", "240px", "200px", {"options" : "depict"});
     let mol = this.searchData.structure;
     jsmeApplet5.readMolFile(mol);   
         },
