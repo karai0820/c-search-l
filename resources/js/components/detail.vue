@@ -10,7 +10,7 @@
         //化合物名
         <h2 class="col-md-12">化合物名/L-No.:{{getData.compound_name}}</h2>
         //構造結果
-        <div id="jsme_container5"></div>
+        <div id="jsme_container4"></div>
 
 
         //パラメータ 
@@ -163,9 +163,9 @@ export default {
             
          },
          Jsme(){
-            jsmeApplet5 = new JSApplet.JSME("jsme_container5", "240px", "200px", {"options" : "depict"});
+            jsmeApplet4 = new JSApplet.JSME("jsme_container4", "240px", "200px", {"options" : "depict"});
             let mol = this.getData.structure;
-            jsmeApplet5.readMolFile(mol);
+            jsmeApplet4.readMolFile(mol);
          }   
 
 

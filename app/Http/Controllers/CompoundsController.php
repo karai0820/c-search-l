@@ -13,7 +13,7 @@ class CompoundsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index()//GET(/aaa)
     {
         return CompoundsResource::collection(Compounds::all());
 
@@ -24,7 +24,7 @@ class CompoundsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create()//GET(/aaa/create)
     {
         //
     }
@@ -35,14 +35,12 @@ class CompoundsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    // 保存
+    // 保存//POST(/aaa)
     public function store(Request $request) {
     $compound = new Compounds;
-    $compound->compound_name = $request->input('compound_name');
-    $compound->structure = $request->input('structure');
-    $compound->chemist = $request->input('chemist');
+    $form = $request->all();
 
-    $compound->save();
+    $compound->fill($form)->save();
 }
 
     /**
@@ -51,7 +49,7 @@ class CompoundsController extends Controller
      * @param  \App\Compounds  $compounds
      * @return \Illuminate\Http\Response
      */
-    // １データ表示
+    // １データ表示 GET(/aaa/{photo})
     public function show(Compounds $Compounds) {
     return new CompoundsResource($compounds);
 }
@@ -62,7 +60,7 @@ class CompoundsController extends Controller
      * @param  \App\Compounds  $compounds
      * @return \Illuminate\Http\Response
      */
-    public function edit(Compounds $compounds)
+    public function edit(Compounds $compounds)//GET(/aaa/{photo}/edit)
     {
         //
     }
@@ -74,24 +72,26 @@ class CompoundsController extends Controller
      * @param  \App\Compounds  $compounds
      * @return \Illuminate\Http\Response
      */
-    // 更新
+    // 更新//PUT/Patch(/aaa/{photo})
     public function update(Request $request, Compounds $compounds) {
-    $compounds->compound_name = $request->compound_name;
-    $compounds->structure = $request->structure;
-    $compounds->chemist = $request->chemist;
+    $compound = Compounds::find($request->id);
+    $edit_form = $request->all();
+    $compound->fill($edit_form)->save();
 
-    $compounds->save();
 }
 
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Compounds  $compounds
      * @return \Illuminate\Http\Response
      */
     
-    // 削除
-    public function destroy(Compounds $compounds) {
-    $compounds->delete();
+    // 削除//DELETE(/aaa/{photo})
+    public function destroy(Request $request, Compounds $compounds) {
+    $compound = Compounds::find($request->id);
+    $compound->delete();
+   
 }
 }

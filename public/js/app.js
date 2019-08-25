@@ -51168,11 +51168,11 @@ __webpack_require__.r(__webpack_exports__);
       this.getData = JSON.parse(sessionStorage.getItem('arr'));
     },
     Jsme: function Jsme() {
-      jsmeApplet5 = new JSApplet.JSME("jsme_container5", "240px", "200px", {
+      jsmeApplet4 = new JSApplet.JSME("jsme_container4", "240px", "200px", {
         "options": "depict"
       });
       var mol = this.getData.structure;
-      jsmeApplet5.readMolFile(mol);
+      jsmeApplet4.readMolFile(mol);
     }
   }
 });
@@ -51226,10 +51226,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      getData: {
+      data: {
         id: '',
         compound_name: '',
         structure: '',
@@ -51246,41 +51247,40 @@ __webpack_require__.r(__webpack_exports__);
     this.$nextTick(function () {
       _this.getSession();
     });
-  },
-  updated: function updated() {
-    var _this2 = this;
-
     this.$nextTick(function () {
-      _this2.Jsme();
+      _this.Jsme();
     });
   },
+  updated: function updated() {},
   methods: {
     edit: function edit() {
-      this.structure = jsmeApplet1.molFile();
-      alert(this.structure);
-      alert(this.chemist);
-      alert(this.compound_name);
+      this.data.structure = jsmeApplet1.molFile();
       var params = new URLSearchParams();
-      params.append('id', this.id);
-      params.append('compound_name', this.compound_name);
-      params.append('structure', this.structure);
-      params.append('chemist', this.chemist);
-      axios.patch('/api/compounds/' + this.$route.params.name.id, params)["catch"](function (error) {
-        console.log(error);
+      params.append('id', this.data.id);
+      params.append('compound_name', this.data.compound_name);
+      params.append('structure', this.data.structure);
+      params.append('chemist', this.data.chemist);
+      axios.put('/api/compounds/' + this.data.id, params).then(function (res) {
         alert('修正しました');
+      })["catch"](function (error) {
+        console.log(error);
       });
+    },
+    dataDelete: function dataDelete() {
+      axios["delete"]('/api/compounds/' + this.data.id).then(function (res) {
+        alert('削除しました');
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    getSession: function getSession() {
+      this.data = JSON.parse(sessionStorage.getItem('arr'));
+    },
+    Jsme: function Jsme() {
+      jsmeApplet1 = new JSApplet.JSME("jsme_container1", "380px", "340px");
+      var mol = this.data.structure;
+      jsmeApplet1.readMolFile(mol);
     }
-  },
-  session: function session() {
-    sessionStorage.setItem('arr', JSON.stringify(this.getData));
-  },
-  getSession: function getSession() {
-    this.getData = JSON.parse(sessionStorage.getItem('arr'));
-  },
-  Jsme: function Jsme() {
-    jsmeApplet1 = new JSApplet.JSME("jsme_container1", "380px", "340px");
-    var mol = this.structure;
-    jsmeApplet1.readMolFile(mol);
   }
 });
 
@@ -51349,9 +51349,6 @@ __webpack_require__.r(__webpack_exports__);
       sessionStorage.setItem('arr', JSON.stringify(this.searchData));
     },
     Jsme: function Jsme() {
-      jsmeApplet5 = new JSApplet.JSME("jsme_container5", "240px", "200px", {
-        "options": "depict"
-      });
       var mol = this.searchData.structure;
       jsmeApplet5.readMolFile(mol);
     }
@@ -51749,7 +51746,7 @@ __webpack_require__.r(__webpack_exports__);
 
         var targetLists = targetText.filter(function (element) {
           //部分一致OR検索
-          return element.compound_name.indexOf(search.compound_name) > -1 || element.chemist.indexOf(search.chemist) > -1 || element.structure.indexOf(search.structure) > -1;
+          return element.compound_name.indexOf(search.compound_name) > -1 || element.chemist.indexOf(search.chemist) > -1 || element.structure.indexOf(search.structure) > -1 || element.structure.indexOf(jsmeApplet1.smiles()) > -1;
         });
 
         if (targetLists != '' && _this3.saved == false) {
@@ -87974,7 +87971,7 @@ var render = function() {
                 _vm._v("化合物名/L-No.:" + _vm._s(_vm.getData.compound_name))
               ]),
               _vm._v("\n        //構造結果\n        "),
-              _c("div", { attrs: { id: "jsme_container5" } }),
+              _c("div", { attrs: { id: "jsme_container4" } }),
               _vm._v("\n\n\n        //パラメータ \n        "),
               _c("table", { staticClass: "table" }, [
                 _vm._m(0),
@@ -88125,7 +88122,7 @@ var render = function() {
               on: {
                 submit: function($event) {
                   $event.preventDefault()
-                  return _vm.edit($event)
+                  return _vm.edit()
                 }
               }
             },
@@ -88149,8 +88146,8 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.compound_name,
-                        expression: "compound_name"
+                        value: _vm.data.compound_name,
+                        expression: "data.compound_name"
                       }
                     ],
                     staticClass: "form-control",
@@ -88159,13 +88156,13 @@ var render = function() {
                       name: "compound_name",
                       required: ""
                     },
-                    domProps: { value: _vm.compound_name },
+                    domProps: { value: _vm.data.compound_name },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.compound_name = $event.target.value
+                        _vm.$set(_vm.data, "compound_name", $event.target.value)
                       }
                     }
                   })
@@ -88181,19 +88178,19 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.chemist,
-                        expression: "chemist"
+                        value: _vm.data.chemist,
+                        expression: "data.chemist"
                       }
                     ],
                     staticClass: "form-control",
                     attrs: { type: "text", name: "chemist" },
-                    domProps: { value: _vm.chemist },
+                    domProps: { value: _vm.data.chemist },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.chemist = $event.target.value
+                        _vm.$set(_vm.data, "chemist", $event.target.value)
                       }
                     }
                   })
@@ -88211,7 +88208,16 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _vm._v("\n" + _vm._s(_vm.getData) + "sss\n\n  ")
+          _c(
+            "button",
+            {
+              staticClass: "button button--inverse",
+              on: { click: _vm.dataDelete }
+            },
+            [_vm._v("delete")]
+          ),
+          _vm._v(" "),
+          _vm._v("\n" + _vm._s(_vm.data) + "sss\n\n  ")
         ])
       ])
     ])
@@ -88903,11 +88909,8 @@ var render = function() {
             _vm._v(" "),
             _c("div", { attrs: { id: "hit-num" } }),
             _vm._v(" "),
-            _vm._l(_vm.compounds, function(compound) {
-              return _c("List", {
-                key: compound.id,
-                attrs: { searchData: compound }
-              })
+            _vm._l(_vm.compounds, function(compound, index) {
+              return _c("List", { key: index, attrs: { searchData: compound } })
             })
           ],
           2

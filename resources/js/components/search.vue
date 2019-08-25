@@ -61,7 +61,7 @@
 
   	</form>
     <div id="hit-num"></div>
-    <List v-for="compound in compounds" :key="compound.id" :searchData="compound"></List>
+    <List v-for="(compound,index) in compounds" :key="index" :searchData="compound"></List>
     
     
 </div>
@@ -180,7 +180,7 @@ components:{
         .then((res)=>{
           const targetText = res.data.data;//DBデータ取得
           const targetLists = targetText.filter(function(element){//部分一致OR検索
-                              return element.compound_name.indexOf(search.compound_name) > -1 || element.chemist.indexOf(search.chemist) > -1 || element.structure.indexOf(search.structure) > -1 ; 
+                              return element.compound_name.indexOf(search.compound_name) > -1 || element.chemist.indexOf(search.chemist) > -1 || element.structure.indexOf(search.structure) > -1 || element.structure.indexOf(jsmeApplet1.smiles()) >-1; 
                                });
           if(targetLists != '' && this.saved == false){//一致データがない場合には返り値なしで終了
           for(var i=0;i<targetLists.length;i++){
