@@ -14,4 +14,5 @@ const mix = require('laravel-mix');
 mix.browserSync('c-search-l.test')
 	.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
+    .sass('resources/sass/c-search.scss', 'public/css')
    	.version();

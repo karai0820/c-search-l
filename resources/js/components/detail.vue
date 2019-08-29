@@ -32,15 +32,31 @@
         </tbody>    
         </table>
 
-        <router-link :to="{name:'edit',params:{name:$route.params.name}}">Edit</router-link>
+        <router-link :to="{name:'edit',params:{name:getData.id}}">Edit</router-link>
 
-            <table cellpadding="5" cellspacing="5">
+            <table class="methodtable" cellpadding="5" cellspacing="5">
             <thead> 
             <tr>
                 <th>試験タイトル</th>
                 <th>試験日</th>
                 <th>試験規模</th>
                 <th>濃度</th>
+            </tr> 
+            </thead>
+            <tbody>
+            <tr v-for="methodData in methodData">    
+            <td>{{methodData.test_title}}</td>
+            <td>{{methodData.test_day}}</td>
+            <td>{{methodData.test_scale}}</td>
+            <td>{{methodData.concentration}}{{methodData.conc_unit}}</td>
+            </tr>
+        </tbody>    
+
+        </table>
+        
+        <table class="paddytable" cellpadding="5" cellspacing="5">
+            <thead> 
+            <tr>
                 <th>ECHCG</th>
                 <th>ORYSP_1</th>
                 <th>ORYSP_3</th>
@@ -49,35 +65,28 @@
             </tr> 
         </thead>
         <tbody>
-            <tr>
-            <td>{{methodData.test_title}}</td>
-            <td>{{methodData.test_day}}</td>
-            <td>{{methodData.test_scale}}</td>
-            <td>{{methodData.concentration}}{{methodData.conc_unit}}</td>
+            <tr v-for="paddyData in paddyData"> 
             <td>{{paddyData.ECHCG}}</td>
             <td>{{paddyData.ORYSP_1}}</td>
             <td>{{paddyData.ORYSP_3}}</td>
             <td>{{paddyData.symptom}}</td>
             <td>{{paddyData.comment}}</td>
-            </tr> 
+            </tr>   
         </tbody>    
         </table>
- 
-      
-        {{methodData}}
-        {{paddyData}}
-        {{uplandData}}
-        {{getData}}
     </div>
     </div>
   </div>
   </div>
 </div>
+{{methodData}}
+{{paddyData}}
 </main>
+
 </template>
 <script>
 export default {
-   
+name:'detail',
     data(){
         return{
             methodData:{
@@ -107,7 +116,6 @@ export default {
             },
             uplandData:{
                 id:'',
-                compound_id:'',
                 method_id:'',
                 mode_of_action:'',
                 ECHUT:'',
@@ -124,44 +132,51 @@ export default {
             getData:'',
         }
     },
+    created(){
+    this.$nextTick(()=>{this.getSession();});
+    },
     mounted(){
-    this.$nextTick(()=>{this.getMethod();});
+    this.$nextTick(()=>{this.Jsme();});
     this.$nextTick(()=>{this.getPaddy();});
     this.$nextTick(()=>{this.getUpland();});
-    this.$nextTick(()=>{this.getSession();});
-    this.$nextTick(()=>{this.Jsme();});
 
-
-    },
-    updated(){
-    this.$nextTick(()=>{this.session();}); 
     },
     methods:{
-        getMethod() {
+         getSession(){
+            this.getData = JSON.parse(sessionStorage.getItem('arr'));
+         },
+         getPaddy() {
+            let sessionData = JSON.parse(sessionStorage.getItem('arr'));
+            var self = this;
+
+
             axios.get('/api/methods')
-            .then( ( res ) => {
-                this.methodData = res.data.data;
+            .then( (res) => {
+                this.methodData = res.data.data.filter(function(element){
+                    return element.compound_id == sessionData.id;
+                });
             });
-            },
-        getPaddy() {
+
             axios.get('/api/paddies')
             .then( ( res ) => {
-                this.paddyData = res.data.data;
+                this.paddyData = res.data.data.filter(function(element){
+                    return element.compound_id == sessionData.id ;
+                });
             });
             },
-        getUpland() {
+        getUpland(){
+            let sessionData = JSON.parse(sessionStorage.getItem('arr'));
             axios.get('/api/uplands')
             .then( ( res ) => {
-                this.uplandData = res.data.data;
+                this.uplandData = res.data.data.filter(function(element){
+                    return element.compound_id == sessionData.id;
+            });
             });
             },
         session(){
             sessionStorage.setItem('arr',JSON.stringify(this.getData));
          },
-         getSession(){
-            this.getData = JSON.parse(sessionStorage.getItem('arr'));
-            
-         },
+        
          Jsme(){
             jsmeApplet4 = new JSApplet.JSME("jsme_container4", "240px", "200px", {"options" : "depict"});
             let mol = this.getData.structure;

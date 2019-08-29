@@ -16,10 +16,10 @@ const routes=[
 	{ path: '/', component:Top, name: 'top' }, 
     { path: '/search', component:Search , name: 'search' }, 
     { path: '/list', component:List , name: 'list' }, 
-    { path: '/list/:name', component:Detail, name: 'detail' }, 
+    { path: '/list/:id', component:Detail , name: 'detail' }, 
     { path: '/create', component:Create, name: 'create' },
-    { path: '/list/:name/edit', component:Edit, name: 'edit' },
-    { path: '/list/:name/registry', component:Registry, name: 'registry' },
+    { path: '/list/:id/edit', component:Edit, name: 'edit' },
+    { path: '/list/:id/registry', component:Registry, name: 'registry' },
 ];
 
 const router = new VueRouter({

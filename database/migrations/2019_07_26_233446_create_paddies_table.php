@@ -37,6 +37,6 @@ class CreatePaddiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('paddyHerbicides');
+        Schema::dropIfExists('paddies');
     }
 }

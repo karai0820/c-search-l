@@ -4,62 +4,54 @@
  
  	<div class="container">
  		<h1 class="jumbotron-heading">Structure Search</h1>
-
   	<div class="row">
   	<div class="col-md-12 mx-auto">
-    <!--jsme-->
-    <div id="jsme_container1"></div>
+    
 
-    <!--構造Stock機能-->
-    <form name="select">
+<section class="structure_search">
+<!--jsme-->
+<div id="jsme_container1"></div>
+
+<!--構造Stock機能-->
+<form name="select">
+    <div id="selectbox">   
     <select name="selectbox">
     <option>1</option>
     <option>2</option>
-    <option>3</option>
     </select>
     <input type="button" class="btn btn-primary " @click="Stock"  value="Editor→Stock">
     <input type="button" class="btn btn-primary " @click="BackEditor"  value="Stock→Editor">
+    </div>
 
     <!--構造ストックボックス-->
-   <div id="stockbox" class="col-md-3" >
-        <div class="col-md-3" >
-          <div id="jsme_container2">Stockbox No.1</div>
-        </div>
-        <div class="col-md-3">
+   <div id="stockbox" class="col-md-6" >
+         <div id="jsme_container2">Stockbox No.1</div>
          <div id="jsme_container3">Stockbox No.2</div>
-        </div>
-        <div class="col-md-3">
-          <div id="jsme_container4">Stockbox No.3</div>
-        </div>
     </div> 
-  </form>
+</form>
   
 <form class="searchform" @submit.prevent="MolSearch">
     <div lass="form-layout">
       <ul class="form-content">
-          <li>
-            <label class="col-md-12" for="compound_name">化合物名/L-No.</label>
-        		<input type ='text' class ="form-control" name="compound_name" v-model="compounds.compound_name">
+          <li class="form-card">
+            <label for="compound_name">化合物名/L-No.</label>
+        		<input type ='text'class ="form-control" name="compound_name" v-model="compounds.compound_name">
           </li>
-          <li>
-        	<label class="col-md-12" for="created_at">登録年月日</label>
+          <li class="form-card">
+        	<label  for="created_at">登録年月日</label>
         		<input type ='date' class ="form-control" name="created_at" v-model="compounds.date">
           </li>
-          <li>
-          <label class="col-md-12" for="chemist">合成者</label>
+          <li class="form-card">
+          <label  for="chemist">合成者</label>
             <input type ='text' class ="form-control" name="chemist" v-model="compounds.chemist">
           </li>
     </ul>
    </div>
-   
-   <div id="search-area"></div>
-   <button type='submit' >Search</button>
-   
-   <!--
-   <button v-on:click='SearchReset' >SearchReset</button>
-    -->
+<button type='submit' >Search</button>
+</form>
 
-  	</form>
+</section>
+
     <div id="hit-num"></div>
     <List v-for="(compound,index) in compounds" :key="index" :searchData="compound"></List>
     

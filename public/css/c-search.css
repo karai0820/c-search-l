@@ -1,0 +1,313 @@
+/* APP CSS Document */
+
+.contentlist {
+  float: left;
+  padding: 10px 0px 0px 20px;
+  list-style-type: none;
+}
+
+.contentlist li {
+  float: left;
+  padding: 0px 0px 0px 20px;
+}
+
+/* TOP CSS Document */
+
+/* Search CSS Document */
+
+#jsme_container1 {
+  float: left;
+}
+
+#jsme_container2 {
+  float: left;
+  padding: 0px 20px 0px 0px;
+}
+
+#jsme_container3 {
+  float: left;
+}
+
+#stockbox {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-flow: row wrap;
+}
+
+#selectbox {
+  padding: 0px 0px 0px 20px;
+}
+
+.form-content {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-flow: row wrap;
+  list-style-type: none;
+}
+
+.form-card {
+  padding: 0px 0px 0px 20px;
+}
+
+.form-control {
+  width: 100px;
+}
+
+/**
+ * BlankPlate | Yet another HTML5 Starter Kit
+ *
+ * BlankPlate Main stylesheet
+ *
+ * @copyright   Copyright 2012, Dimitris Krestos
+ * @license     apache license, Version 2.0 (http://www.opensource.org/licenses/apache2.0.php)
+ * @link        http://vdw.staytuned.gr/html5-starter-kit-blankplate/
+ * @package     BlankPlate
+ * @version     v1.2.3
+ */
+
+/**
+ * WORLD
+ *
+ * -------------------------------------------------------------------------------------------------
+ */
+
+/* Clear fix */
+
+.clear {
+  clear: both;
+  display: block;
+  float: none;
+  font-size: 1px;
+  height: 0px;
+  line-height: 0;
+}
+
+/**
+ * header
+ * Your header rules
+ * -------------------------------------------------------------------------------------------------
+ */
+
+header {
+  background: #5B5F70;
+  color: white;
+  height: 400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+header h1 {
+  color: inherit;
+  font-size: 48px;
+  letter-spacing: 4px;
+  padding-top: 120px;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+header h2 {
+  color: inherit;
+  font-size: 18px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+}
+
+/**
+ * BODY
+ * Your content rules
+ * -------------------------------------------------------------------------------------------------
+ */
+
+.separator {
+  background: white;
+  border-bottom: 1px solid #E5E5E5;
+  color: #888;
+  font-size: 16px;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 80px;
+  letter-spacing: 2px;
+  width: 100%;
+}
+
+section#body {
+  background: #a0cac0;
+}
+
+section#body h2 {
+  color: white;
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  line-height: 34px;
+  margin-top: 2rem;
+}
+
+section {
+  background: #F1F1F1;
+}
+
+article {
+  padding: 30px 0 20px;
+}
+
+article H4 {
+  color: #E95855;
+  margin-bottom: 10px;
+}
+
+pre {
+  max-width: 400px;
+}
+
+/**
+ * footer
+ *
+ * -------------------------------------------------------------------------------------------------
+ */
+
+footer {
+  width: 100%;
+  color: #888;
+  margin: 20px auto;
+}
+
+/**
+ * TaBS
+ *
+ * -------------------------------------------------------------------------------------------------
+ */
+
+.tabs > div {
+  /*border-top: 1px solid #c7c7c7*/
+  margin-top: 10px;
+  background: white !important;
+  display: block;
+  /*border-bottom: 4px solid #E95855 !important;*/
+}
+
+.tabs > div span {
+  border-bottom: 4px solid #E5E5E5 !important;
+  color: #ccc !important;
+  font-weight: 300;
+  line-height: 186px !important;
+  display: block;
+  text-align: center;
+  font-size: 24px;
+}
+
+.tabs ul.horizontal {
+  list-style: none outside none;
+  margin: 0;
+}
+
+.tabs li {
+  background: white;
+  border-bottom: 4px solid #E5E5E5;
+  margin: 0 10px 0 0;
+  display: inline-block;
+}
+
+.tabs a {
+  color: #ccc;
+  display: block;
+  font-size: 14px;
+  font-weight: 300;
+  padding: 10px 20px;
+  text-decoration: none;
+}
+
+.tabs li:hover {
+  background: #45A9BA;
+  border-bottom: 4px solid #358391;
+}
+
+.tabs li:hover a {
+  color: white;
+}
+
+.active {
+  background: #45A9BA !important;
+  border-bottom: 4px solid #358391 !important;
+}
+
+.active a {
+  color: white !important;
+}
+
+.link {
+  color: white;
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  line-height: 48px;
+  margin-top: 20px;
+  margin-left: 6px;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+  color: inherit;
+}
+
+.anchorlink {
+  border-bottom: 1px dashed white;
+  color: white;
+  text-decoration: none;
+}
+
+.anchorlink:hover {
+  text-decoration: none;
+  border-bottom: none;
+  color: inherit;
+}
+
+.screenshot {
+  position: absolute;
+  clip: rect(0 0 0 0);
+}
+
+.prev,
+.next {
+  background: white !important;
+  color: #a0cac0 !important;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.prev:hover,
+.next:hover {
+  background: #45A9BA !important;
+  color: white !important;
+}
+
+.logo {
+  margin-top: -6px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.button {
+  background-color: #45A9BA;
+  border: none;
+  border-bottom: 4px solid #358391;
+  color: #FFFFFF;
+  border-radius: 0;
+  font-size: 14px;
+  letter-spacing: 2px;
+  height: 48px;
+  line-height: 48px;
+}
+
+.button:hover {
+  background: #45A9BA;
+  color: #FFF;
+  border-bottom-color: #358391;
+}
+

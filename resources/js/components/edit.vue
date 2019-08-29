@@ -26,7 +26,7 @@
     //登録ボタン
     <button type="submit" class="button button--inverse">register</button>
   </form>
-    <button v-on:click="dataDelete" class="button button--inverse">delete</button>
+    <button v-on:click="dataDelete()" class="button button--inverse">delete</button>
 　　
 <!--{{$route.params.name}}-->
 {{data}}sss
@@ -39,6 +39,7 @@
 
 <script>
 export default {
+  name:'edit',
     data() {
         return {
           data:{
@@ -71,7 +72,7 @@ export default {
             params.append('structure',this.data.structure); 
             params.append('chemist',this.data.chemist);
 
-            axios.put('/api/compounds/'+this.data.id,params)
+            axios.put('/api/compounds/'+ this.data.id,params)
             .then((res) => {
                alert('修正しました');
                 }) 
@@ -81,7 +82,7 @@ export default {
             });
         },
         dataDelete(){
-          axios.delete('/api/compounds/'+this.data.id)
+          axios.delete('/api/compounds/'+ this.data.id)
             .then((res) => {
                alert('削除しました');
                 }) 

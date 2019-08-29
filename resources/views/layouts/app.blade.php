@@ -21,6 +21,7 @@
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <!--own Styles-->
+    <link href="{{ mix('css/c-search.css') }}" rel="stylesheet">
 
     <!--JSME -->
     

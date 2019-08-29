@@ -26,23 +26,8 @@ window.Vue = require('vue');
  */
 import router from './router';
 import Top from './components/top.vue';
-import firebase from 'firebase';
-
 
 Vue.config.produtionTip = false;
-
-  // Initialize Firebase 
-  var firebaseConfig = {
-    apiKey: "AIzaSyBAIDcHgGTK76anTyB88qmET3Hpk4-eVt8",
-    authDomain: "c-search-e6071.firebaseapp.com",
-    databaseURL: "https://c-search-e6071.firebaseio.com",
-    projectId: "c-search-e6071",
-    storageBucket: "",
-    messagingSenderId: "651199615863",
-    appId: "1:651199615863:web:ed26f77185fca975"
-  };
-
-  firebase.initializeApp(firebaseConfig);
 
 const app = new Vue({
     el:'#vueapp',

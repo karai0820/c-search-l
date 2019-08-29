@@ -89,9 +89,8 @@ class CompoundsController extends Controller
      */
     
     // 削除//DELETE(/aaa/{photo})
-    public function destroy(Request $request, Compounds $compounds) {
-    $compound = Compounds::find($request->id);
-    $compound->delete();
+    public function destroy(Compounds $compounds) {
+    $compounds->delete();
    
 }
 }

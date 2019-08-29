@@ -17,6 +17,6 @@ class Method extends Model
         'conc_unit' => 'required',
  
     );
-   
+
 }
 

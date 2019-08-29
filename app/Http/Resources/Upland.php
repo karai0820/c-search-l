@@ -16,7 +16,7 @@ class Upland extends JsonResource
     {
         return[
         'id'=>$this->id,
-        'compound_id'=>$this->compound_id,
+        'compound_id' => $this->compound_id,
         'method_id' => $this->method_id,
         'mode_of_action' => $this->mode_of_action,
         'ECHUT' => $this->ECHUT,

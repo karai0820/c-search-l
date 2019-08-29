@@ -23,4 +23,6 @@ class Compounds extends JsonResource
             'updated_at'=>$this->updated_at
         ];
     }
+
+
 }
